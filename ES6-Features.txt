@@ -1,0 +1,441 @@
+
+
+React Native:
+ 
+Javascript framework - ES 6
+React && Redux core features 
+React Native
+
+
+		
+			 React Native
+			      |
+			 React and Redux
+			      |
+			   JS -ES 6
+
+.....................................................................................
+			    Java script fundamentals-ES 6
+
+What is ES 6?
+  IT is just version no of javascript language.
+
+What is javascript?
+   Javascript is Object based,functional style programming language.
+
+Stages of Javascript
+
+1.source code
+  index.js 
+2.compiled code
+  compiled code in javascript is visbile outside.
+  Every js code is compiled into byte code which is kept in memory
+3.Executable
+  After compilation we need run.
+  Js code is executed on js virtual machine or js engine.
+
+Js vm:
+1.embeded vm
+   Every browser has js vm
+   Inside Mobile app with respect to React native, there is embeded js
+ chorme - v8
+2.standalone vm
+  node.js having js engine
+
+Version of Javascript:
+
+Javascript language created for browsers in 1995 for building dynamic web pages by NetsCap Communication.
+
+After javascript language created, the language was submitted to standard body called
+"ECMA" international
+
+After submission, the language was standarized and released by committee.
+
+1.ES 1.0 -->1996
+2.ES 3.0 -->1999
+3.ES 4.0 -->2006
+4.ES 5.0 --->2007
+5.ES 6.0 --->2012-2015
+6.ES 7.0 ----->2016
+etc.....
+....................................................................................
+Javascript learning path(ES6):
+..............................
+1.Language fundamentals
+2.Functions 
+3.Objects
+
+1.Language fundamentals
+ ->Variables
+ ->Literals
+ ->Type Systems
+
+
+
+1.variable declarations
+ 
+ let /const - es 6 keywords
+eg:
+ let firstName
+
+2.literals -values
+   strings,numbers,boolean,undefined,NaN,infinity,function,null,object
+
+3.Data types
+   js is dynamic typed language-the type of variable is understood only during runtime time.
+  int a =10 - strongly typed
+ 
+Project setup:
+
+Steps:
+E:\session\IBM\2023\July\reactnative>mkdir es6apps
+
+E:\session\IBM\2023\July\reactnative>cd es6apps
+
+E:\session\IBM\2023\July\reactnative\es6apps>mkdir src
+
+E:\session\IBM\2023\July\reactnative\es6apps>code .
+
+We can test code in node or browser:
+
+in Node:
+
+src
+ |
+ index.js
+console.log("Welcome to Javascript!!")
+
+E:\session\IBM\2023\July\reactnative\es6apps>node src/index.js
+
+
+If you want to run inside browser..
+
+index.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src="src/index.js"></script>
+</body>
+</html>
+
+
+Strings:
+//strings : "",'',``,${}
+
+let firstName = "Subramanian"
+let lastName = 'Murugan'
+console.log(firstName + " " + lastName)
+console.log(firstName, lastName)
+//es 6 feature -back tick(``) ${} -Interpolation
+console.log(`Your Name is ${firstName} ${lastName}`)
+
+let doc = `
+   <html>
+      <head>
+          <title></title>
+      </head>
+    <body>
+    </body>
+ </html>
+`
+console.log(doc)
+
+Numbers:
+ only type called number 
+ 64 bit aka double.
+//
+let price =100
+let qty =10
+let totalPrice = price * qty
+console.log(`Price ${price} Qty ${qty} Total Price ${totalPrice}`)
+
+Boolean:
+ true or false
+//booleans
+let isActive = true
+let isEnabled = false 
+console.log(`Is Active ${isActive} isEnabled ${isEnabled}`)
+
+Undefined:
+ Variable is declared without any value.
+
+
+let price;
+console.log(`Price is ${price}`)
+
+NaN - Not a Number
+NaN is number only which represents "error".
+If you do any numerical computation, if computation is failed you will get NaN.
+NaN is kind of "error".
+if you get NaN you have to fix beacuse is bug
+
+NaN Use case:
+if you do computation against undefined values, you get NaN.
+
+let qty;
+let price = 100
+let totalPrice = qty * price; //undefiend * number 
+console.log(`Qty ${qty} Price ${price} TotalPrice ${totalPrice}`)
+
+Infinity:
+  Div/0
+let price =190;
+let avg =  price/0
+console.log(`Price ${price} Avg ${avg}`)
+..................................................................................
+			Advanced Boolean
+..................................................................................
+What can be true or false?
+
+decision making : if..else ,tenary operator
+
+in javascript is every thing is true execept the following values 
+
+Falsy values
+
+ * 
+ *  1.boolean false
+ *  2.Empty string "" ,''
+ *  3.0
+ *  4.undefined
+ *  5.NaN
+ *  6.null
+ */
+
+//What can be false or true 
+
+let firstName = "Subramanian"
+
+if (firstName) {
+    console.log('Your name is valid')
+} else {
+    console.log('Your name is not valid')
+}
+let myvar;
+if (myvar) {
+    console.log(`MyVar is ${myvar}`)
+} else {
+    console.log(`MyVar is ${myvar}`)
+}
+myvar = 0
+if (myvar) {
+    console.log(`MyVar is ${myvar}`)
+} else {
+    console.log(`MyVar is ${myvar}`)
+}
+myvar = false
+if (myvar) {
+    console.log(`MyVar is ${myvar}`)
+} else {
+    console.log(`MyVar is ${myvar}`)
+}
+
+myvar = ""
+if (myvar) {
+    console.log(`MyVar is ${myvar}`)
+} else {
+    console.log(`MyVar is ${myvar}`)
+}
+....................................................................................
+				Operator -Equal
+
+== ->Double equal
+=== ->Triple equal
+!==
+!===
+
+let a = 10;
+let b = 10;
+
+if (a == b) {
+    console.log('a and b are equal')
+} else {
+    console.log('a and b are not equal')
+}
+
+
+let x = 10;
+let y = "10";
+// double equal always compares values only not types 
+if (x == y) {
+    console.log('x and y are equal')
+} else {
+    console.log('y and y are not equal')
+}
+// tripl equal always compares values and types
+if (x === y) {
+    console.log('x and y are equal')
+} else {
+    console.log('y and y are not equal')
+}
+
+Recommened: triple equal only.
+
+
+const:
+   it is read only where as let is reassignable.
+
+let a = 10;
+console.log(`a ${a}`)
+a = 90
+console.log(`a ${a}`)
+
+const b = 90;
+console.log(`b ${b}`)
+b = 90
+console.log(`b ${b}`)
+
+
+.....................................................................................
+			   Functions
+....................................................................................
+
+functions are building block of javascript language.
+functions encapsulate the logic of application.
+functions may take args and return values
+
+
+
+//function declaration
+function sayHello(){
+    //function body 
+    console.log('hello')
+}
+//function invocation
+sayHello()
+
+Args and parameters:
+//function args and params
+
+//es 6 default args
+function add(a = 0, b = 0) {
+    let c = a + b
+    console.log(`c ${c}`)
+}
+add(10, 10)
+add()
+
+How to return values
+
+function add(a=0, b=0) {
+    return a + b
+}
+let c = add(10,10)
+console.log(`c ${c}`)
+....................................................................................
+			  Functional Programming
+....................................................................................
+According to functional programming, function is just value like numbers,strings.
+
+since function is value can be assigned to a variable.
+
+If you assign the function with variable, then that function can be called with variableName.
+
+if you declare function with variables, without function name called "Anonmous function".
+
+//function as literal 
+
+function sayHello() {
+    return "Hello"
+}
+console.log(sayHello())
+
+//anonmous function 
+let hai = function () {
+    console.log('Hai')
+}
+hai()
+
+//args and params with anonmous funciton 
+let add = function (a = 0, b = 0) {
+    return a + b
+}
+console.log(add(10, 10))
+....................................................................................
+			Higher order function
+...................................................................................
+
+Since function is value can be passed to another function as parameter(value)
+
+
+function greetMe(name) {
+    return `Hello ${name}`
+}
+console.log(greetMe('Subramanian'))
+
+// function connect(resolve) {
+//     resolve()
+// }
+let connect = function (resolve) {
+    resolve()
+}
+connect(function () {
+    console.log('connecting...')
+})
+.....................................................................................
+			 ES 6 Arrow function
+.....................................................................................
+
+ES 6 introduced new syntax to simplify the function declarations -Arrow function.
+//arrow functions 
+
+//es 5 version of anonmous function 
+let greet = function () {
+    console.log('Hello')
+}
+greet()
+
+//Arrow function
+let hello = () => {
+    console.log('Arrow Hello')
+}
+hello()
+//if function has only one line of one body: we can remove {}
+hello = () => console.log('Arrow Hello')
+hello()
+//Args and arrow 
+
+let add = (a = 0, b = 0) => {
+    let c = a + b
+    console.log(`C ${c}`)
+}
+add(10, 10)
+
+add = (a = 0, b = 0) => {
+    return a + b
+}
+console.log(add(10, 10))
+
+//if function only returns ; remove {} and return statement
+add = (a = 0, b = 0) => a + b
+
+console.log(add(10, 10))
+.....................................................................................
+				Objects
+.....................................................................................
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
