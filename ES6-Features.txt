@@ -419,22 +419,203 @@ console.log(add(10, 10))
 .....................................................................................
 				Objects
 .....................................................................................
+Objects can be created in two ways
+
+1.constructors pattern
+   es 5 functions 
+   es 6 classes
+2.literal pattern
+
+ES 6 Classes:
+.............
+class Student {
+    //instance variables
+    id
+    firstName
+    lastName
+    constructor() {
+        this.id = 1
+        this.firstName = 'John'
+        this.lastName = 'Mc'
+    }
+    //methods
+    findAll() {
+        return 'students'
+    }
+}
+let student = new Student()
+console.log(student)
+
+............................................................................
+class Student {
+    //instance variables
+    id
+    firstName
+    lastName
+    constructor(id = 1, firstName = 'John', lastName = 'Mc') {
+        this.id = id
+        this.firstName = firstName
+        this.lastName = lastName
+    }
+    //methods
+    findAll() {
+        return 'students'
+    }
+}
+let student = new Student()
+console.log(student)
+console.log(student.findAll())
+.....................................................................................
+Inheritance:
+
+class Account {
+    constructor() {
+        console.log('Account class')
+    }
+    deposit() {
+        return 0
+    }
+}
+class SavingsAccount extends Account {
+    constructor() {
+        super()
+        console.log('Savings Account')
+    }
+    //overide
+    deposit(){
+        return 100
+    }
+}
+let sb = new SavingsAccount();
+console.log(sb.deposit())
+....................................................................................
+				Literal Objects
+...................................................................................	//literal object 
+let student = {
+    id: 1,
+    name: 'Subramanian',
+    address: {
+        city: 'Coimbatore'
+    }
+}
+console.log(student.id,student.name,student.address.city)
+.....................................................................................
+			 Object Destructuring -With args
+....................................................................................	
+
+//without destructuring
+function printStudent_(student) {
+    console.log(student.id)
+    console.log(student.name)
+    console.log(student.address.city)
+}
+// function printStudent(student) {
+//     //destructuring 
+//     const { id, name, address: { city } } = student
+//     console.log(id)
+//     console.log(name)
+//     console.log(city)
+// }
+
+// function printStudent({ id, name, address: { city } }) {
+//     console.log(id)
+//     console.log(name)
+//     console.log(city)
+// }
+
+const printStudent = ({ id, name, address: { city } }) => {
+    console.log(id)
+    console.log(name)
+    console.log(city)
+}
+printStudent({
+    id: 1,
+    name: 'Subramanian',
+    address: {
+        city: 'Coimbatore'
+    }
+})
+....................................................................................
+			 Object Destructuring -With args
+....................................................................................	
+// const printStudent = () => {
+//     return {
+//         id: 1,
+//         name: 'Subramanian',
+//         address: {
+//             city: 'Coimbatore'
+//         }
+//     }
+// }
+// const printStudent = (id = 1, name = 'Subramanian', city = 'Coimbatore') => {
+//     return {
+//         id: id,
+//         name: name,
+//         address: {
+//             city: city
+//         }
+//     }
+// }
+
+// const printStudent = (id = 1, name = 'Subramanian', city = 'Coimbatore') => {
+//     //if left:right variabels are same remove one 
+//     return {
+//         id,
+//         name,
+//         address: {
+//             city
+//         }
+//     }
+// }
+const printStudent = (id = 1, name = 'Subramanian', city = 'Coimbatore') => ({
+    id,
+    name,
+    address: {
+        city
+    }
+})
+
+console.log(printStudent())
+console.log(printStudent(2, 'Ram', 'Banaglore'))
+....................................................................................
+			     ES 6 Modules
+...................................................................................
+
+To share code between files and folders.
+
+Keywords to share code:
+//share code
+1.export 
+2.export default
+
+3.import - to use files  within another js
 
 
+// export class CustomerController {
+//     constructor(){
+//         console.log('Customer controller')
+//     }
+// }
+
+export default class CustomerService {
+    constructor() {
+
+    }
+    //apis 
+    findAll() {
+        return "findAll Customers"
+    }
+}
 
 
+index.js
+// import { CustomerService,CustomerController } from './services/customer.service.js'
+import CustomerService from './services/customer.service.js'
 
 
-
-
-
-
-
-
-
-
-
-
+let customerService = new CustomerService();
+// let custCtrl = new CustomerController()
+console.log(customerService.findAll())
 
 
 
