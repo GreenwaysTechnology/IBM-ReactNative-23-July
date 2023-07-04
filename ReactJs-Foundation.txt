@@ -1,0 +1,300 @@
+				React js
+.....................................................................................
+
+What is React?
+
+  React is javascript lib for building user interface 
+  React java script lib like jquery,framework like angular.
+
+What is User interface application?
+ 
+  The user where he interacts , those applications are called user interface applications.
+
+Eg:
+  Desktop applications
+     if you want to interact with os, shell is primary user interface
+     shell in windows, command,powershell,explorer 
+
+  Web Browser:
+     It is one of the application software, acts as user interface for web applications
+ 
+ Hand Held devices
+  =>Mobile applications
+  =>Watch
+  =>Tabs
+  =>TV
+ etc..
+.....................................................................................
+				Types of web app
+.....................................................................................
+
+
+1.Static Web apps -  1989 to 1995
+    built at server end,accessed by clients using browser
+    HTML Pages are primary output.
+
+2.Dynamic content web apps - 1996 to till date
+    built at server end, access by clients using browser
+eg:
+  JEE(Servlets,jsp)
+  Asp.net
+  PHP
+ etc.....
+
+3.Web Services -1998 to till
+    Data driven apps
+     built at server end, accessed by clients  such  as mobiles, client side browser apps.
+ SOAP - XML based web service
+ RESTFull -  Different format based web service - JSON,XML,PDF....
+....................................................................................
+			  Client Side Web apps
+
+1.SPA
+Single Page Web Apps -  2007 to till date
+   built at client side,accessed by clients browsers.
+   built using javascript,html 5,css 3 
+
+.....................................................................................
+			 React and Web Stack
+....................................................................................
+
+React was created to build SPA Web apps by face book at 2013.
+
+
+				     React
+
+   "React is modern SPA lib created by face book based on "Flux Design Pattern"
+
+.....................................................................................
+
+Architecture for libs and frameworks:
+
+Plain JS
+			 Application(dom) -plain js
+			     |
+			 Javascript Engine
+			      |
+			  Browser Engine
+
+
+
+
+Framework/lib
+			 Application(JQuery)
+			     |
+		       ---------------------------
+			  JQuery Engine	------javascript programming		
+                       -------------------------------
+			      |
+			 Javascript Engine -C/C++
+			      |
+			  Browser Engine
+
+
+
+What is jquery engine?
+  Jquery engine is also javascript program.
+
+
+
+
+Angular
+			 Application(Angular)
+			     |
+		       ---------------------------
+			  Angular Engine : Renderer(Ng2) Renderer2(Ng4,5),Ivy(6,7)		
+                       -------------------------------
+			      |
+			 Javascript Engine
+			      |
+			  Browser Engine
+
+React
+
+
+		       Application(React)
+			     |
+		       ---------------------------
+	              React Engine :React fiber-->React 16 on wards		
+                      ---------------------------------
+			      |
+			 Javascript Engine
+			      |
+			  Browser Engine
+
+
+React Engine itself is javascript
+.....................................................................................
+			  React Echo system
+....................................................................................
+
+Where is react used? What type of apps u can build using react.
+
+React is every where from building browser based apps , mobile apps,server side web apps.
+What ever type of app you build "React core" remains same.
+
+React can be used to build application for 
+........................................
+1.browsers : Desktop -  Reactjs - SPA
+2.Mobile Apps : React Native
+3.Server side Apps: "Next.js"
+
+face book is working on many futures projects related to react
+4.React VR : Virtual Reality.
+5.React Car : For car applications
+6.React TV  : React for TV.
+7.React IOT : any devices
+...................................................................................
+			   React core 
+..................................................................................
+React apps are written using a language called "JSX"
+
+JSX language features are same but its "mark up" syntax would be different.
+
+For Browser JSX markup would be "HTML"
+For Mobile JSX markup would be "Mobile Elements"
+.....................................................................................
+React and Browser:
+..................
+
+Project setup:
+..............
+npx create-react-app my-app
+
+cd my-app>npm start
+.....................................................................................
+
+User interface is designed in browser based on HTML.
+
+Types of UI in browser:
+
+1.static ui 
+   ui is created by hard coding html 
+  <img src="log.png/>
+2.Dynamic UI
+   UI is created by programs
+ Server side:
+    UI is created dynamically at server by programming languages like java(servlets/jsp),php,aspx,phython,node.js etc... and sent to browser.
+
+ Client side:
+  UI is created dynamically at client side (inside browser) by programming language called "js"- like js frameworks or libs react,angular,vue.js,etc....
+...................................................................................
+			      Widget
+....................................................................................
+
+Widget represents a single ui or collection of many ui.
+
+for eg : Panel or Page, Button,Gallery....
+.............................&&&&&&&&&...............................................
+				Component
+....................................................................................
+
+Component is term which represents "Widget".
+
+In React we create components using js dynamically.
+.....................................................................................
+				UI - HTML Arch
+.....................................................................................
+Widget/Component:
+
+  Components are organized as "tree" model
+  
+
+ Profile
+    |
+   | Image
+   Description   
+     
+                 "Every Component is Object"
+
+When you compose Objects, which forms "Object tree", which is called "Component tree"
+.....................................................................................
+			  React is component driven lib
+.....................................................................................
+
+Every React app must have single root element(Component)-App
+
+import ReactDOM from 'react-dom/client';
+
+//create root component
+const App = <h1>Welcome to React!</h1>
+// const rootElement = document.getElementById('root')
+const root = ReactDOM.createRoot(document.getElementById('root'))
+//render will insert rootComponent into <div>?</div>
+root.render(App)
+
+How to create Components in react?
+
+We have three patterns.
+
+1.Variable Pattern
+2.function pattern
+3.ES 6 class Pattern
+    
+
+1.Variable Pattern:
+
+import ReactDOM from 'react-dom/client';
+
+const App = <h1>Welcome to React!</h1>
+
+Here App is just variable , right side is component
+
+2.Functions 
+
+import ReactDOM from 'react-dom/client';
+
+//Create Component using functions 
+//Es 5 style
+// function App() {
+//     //Returns Component
+//     return <h1>Wecome to React</h1>
+// }
+// const App = () => {
+//     return <h1>Wecome to React</h1>
+// }
+const App = () => <h1>Wecome to React</h1>
+
+const root = ReactDOM.createRoot(document.getElementById('root'))
+//Calling function which inserts Component : but it is not recommended
+//root.render(App())
+root.render(<App></App>)
+
+3.Using ES 6 Class:
+ Now a days , es 6 class syntax is not used mostly.
+
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+
+//class 
+class App extends React.Component {
+
+    //override render method
+    render(){
+        return <h1>Welcome to React</h1>
+    }
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'))
+
+root.render(<App></App>)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
