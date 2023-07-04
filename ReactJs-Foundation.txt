@@ -279,12 +279,233 @@ const root = ReactDOM.createRoot(document.getElementById('root'))
 
 root.render(<App></App>)
 
+.....................................................................................	
+				JSX Rules
+.....................................................................................
+
+JSX - Javascript and XML
+
+What is JSX?
+ JSX is dsl language to create user interfaces
+
+What is relationship with XML?
+
+ Inside JSX , we write javascript code and HTML code only not xml code.
+
+Why the term XML is used?
+
+ When we write JSX code, we need stable mark up standards.
+
+You know very well HTML has weak parser  that means 
+ <h1>hello
+when run the code , the html parser does not stop rendering hello, it never throws any error
+
+in order to avoid instability code inside jsx during compilation, JSX team adopted XML Parser rules, since XML parser has strong parser
+
+Basic XML  rules:
+
+1.every opened element must be closed
+  <h1>Hello</h1>
+  <Welcome></Welcome>
+ some elements may not have closing tag
+  <img /> : image element has no child elements : self closing. 
+
+2. In xml you must have one single root element.
+  all elements must be organized under single root element.
+
+ <h1>Welcome to React</h1>
+ <p>Path finder</p>
+
+In html what can be root element
+ <div>,<span>,all html 5 layout elements header,footer,section,aside...
+
+3.Component names should start with Uppercase,generally would be noun.
+  App ,app
+.....................................................................................
+				 How jsx code gets compiled?
+....................................................................................
+
+How code gets compiled?
+
+source code: jsx code
+
+function Welcome() {
+      return <h1>Welcome To React!</h1>;
+}
+	|
+     babel.js - compiler 
+|	
+|
+compiled code
+function Welcome() {
+  return React.createElement(
+    'h1',
+    null,
+    'Welcome To React!'
+  );
+}
+|
+runtime : react engine
+function Welcome() {
+  return React.createElement(
+    'h1',
+    null,
+    'Welcome To React!'
+  );
+}
+|
+//React.createElement
+function createElement(args){
+   document.createElement(args); // low level api call
+}
+....................................................................................
+  		 Component Tree -Component Composition
+
+....................................................................................
+How to break large ui into smaller and smallar.
+
+Why we need to create components?
+ -Resuablity
+
+DRY
+
+How to create Component tree?
+
+Lets look at the below markup and start thinking in the terms of components...
+
+Blog
+<article>
+ <h1>My First Component</h1>
+ <ol>
+   <li>Components are building blocks</li>
+   <li>Components helps to reuse</li>
+   <li>Components helps to scale ui</li>
+ </ol>
+</article>
+
+...
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+
+//React Fragements: invisble container element which is used to escape compile time errors without using container element.
+
+const ArticleListItemDetails = () => <>
+    <li>Components are building blocks</li>
+    <li>Components helps to reuse</li>
+    <li>Components helps to scale ui</li>
+</>
+
+const ArticleListItem = () => <ol>
+    <ArticleListItemDetails />
+</ol>
+
+const ArticleTitle = () => <h1>Article title</h1>
+
+const ArticleList = () => <ArticleListItem />
+const Article = () => {
+    return <article>
+        <ArticleTitle />
+        <ArticleList />
+    </article>
+}
+const Blog = () => {
+    return <Article />
+}
+
+const App = () => {
+    return <div>
+        <Blog />
+    </div>
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'))
+root.render(<App />)
+
+....................................................................................
+			  Modularzation and Project layout
+.....................................................................................
+
+It means to spilt code,and to keep inside folders and files
+
+Is there a recommended way to structure React projects?
+
+React doesn’t have opinions on how you put files into folders. That said there are a few common approaches popular in the ecosystem you may want to consider.
+
+1.Grouping by features or routes - This is recommended
+2.Grouping by file types -  This is not recommended for large 
+projects
 
 
+common/
+  Avatar.js
+  Avatar.css
+  APIUtils.js
+  APIUtils.test.js
+feed/
+  index.js
+  Feed.js
+  Feed.css
+  FeedStory.js
+  FeedStory.test.js
+  FeedAPI.js
+profile/
+  index.js
+  Profile.js
+  ProfileHeader.js
+  ProfileHeader.css
+  ProfileAPI.js
 
 
+profile,feed,customers,products,payments which are "features"
 
+Grouping by file type
 
+api/
+  APIUtils.js
+  APIUtils.test.js
+  ProfileAPI.js
+  UserAPI.js
+components/
+  Avatar.js
+  Avatar.css
+  Feed.js
+  Feed.css
+  FeedStory.js
+  FeedStory.test.js
+  Profile.js
+  ProfileHeader.js
+  ProfileHeader.css
+
+Now you can refer code base:
+src
+ |
+ blogs
+   | 
+  xxx
+  xx
+App.js
+index.js
+....................................................................................
+				 React dev tool
+.....................................................................................
+
+React dev tool is used to visuaalize the compoent tree...
+https://react.dev/learn/react-developer-tools
+
+Assignment -1:
+
+Build Layouts based on compoenent composition
+
+ App
+  |
+ Page
+   Header
+     ->Logo
+     ->SearchBar
+   Body 
+     ->Have three Articles
+   Footer
+     ->Copyrigh
 
 
 

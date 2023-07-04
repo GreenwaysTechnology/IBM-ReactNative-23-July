@@ -1,0 +1,1 @@
+export const ArticleTitle = () => <h1>Article title</h1>
