@@ -506,6 +506,1055 @@ Build Layouts based on compoenent composition
      ->Have three Articles
    Footer
      ->Copyrigh
+.....................................................................................				   Data and React
+....................................................................................
+Data is going to give UI more dynamic.
+{} -  data interpolation - data binding
+
+data can be primitives - string,number,boolean
+data can be objects - {}
+data can be list/array - []
+
+How to pass data to the component?
+
+1.Property pattern - props pattern
+2.State Pattern
+
+Data binding:
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+
+const User = () => {
+    const id = 1;
+    const name = 'Subramanian'
+    const status = true
+    const address = {
+        city: 'Coimbatore',
+        state: 'Tamil Nadu'
+    }
+    const skills = ['Java', 'Javascript', 'react', 'Next', 'Microservices']
+    return <div>
+        <h1>Id : {id}</h1>
+        <h2>Name : {name}</h2>
+        <h3>Status: {status ? "Available" : "Not Available"}</h3>
+        <h2>Address</h2>
+        <address>
+            <p>{address.city}</p>
+            <p>{address.state}</p>
+        </address>
+        <h3>Skills</h3>
+        <ol>
+            {
+                skills.map((skill) => {
+                    return <li>{skill}</li>
+                })
+            }
+        </ol>
+    </div>
+}
+.....................................................................................
+				Property Pattern
+.....................................................................................
+
+Any Component is configurable.
+Component can display data based on configuration.
+I have created Grid Component,Image,Link
+Component must accept any type of data..
+
+Data can be passed outside component - from the parent component.
+if you pass data from parent component to child component - Props pattern  
+which is similar to function args only.
+
+
+
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+
+
+// const User = (name,id) => {
+//     return <>
+//       {name} {id}
+//     </>
+// }
+
+// const User =(userinfo)=>{
+//     console.log(userinfo)
+//      return <h1>{userinfo.name}</h1>
+// }
+
+// const User = (props) => {
+//     console.log(props)
+//     return <div>
+//         <h1>Id : {props.id}</h1>
+//         <h2>Name : {props.name}</h2>
+//         <h3>Status: {props.status ? "Available" : "Not Available"}</h3>
+//         <h2>Address</h2>
+//         <address>
+//             <p>{props.address.city}</p>
+//             <p>{props.address.state}</p>
+//         </address>
+//         <h3>Skills</h3>
+//         <ol>
+//             {
+//                 props.skills.map((skill) => {
+//                     return <li>{skill}</li>
+//                 })
+//             }
+//         </ol>
+//     </div>
+// }
+
+// const User = (props) => {
+//     console.log(props)
+//     const { id, name, status, address: { city, state }, skills } = props;
+//     return <div>
+//         <h1>Id : {id}</h1>
+//         <h2>Name : {name}</h2>
+//         <h3>Status: {status ? "Available" : "Not Available"}</h3>
+//         <h2>Address</h2>
+//         <address>
+//             <p>{city}</p>
+//             <p>{state}</p>
+//         </address>
+//         <h3>Skills</h3>
+//         <ol>
+//             {
+//                 skills.map((skill) => {
+//                     return <li>{skill}</li>
+//                 })
+//             }
+//         </ol>
+//     </div>
+// }
+
+const User = ({ id, name, status, address: { city, state }, skills }) => <div>
+    <h1>Id : {id}</h1>
+    <h2>Name : {name}</h2>
+    <h3>Status: {status ? "Available" : "Not Available"}</h3>
+    <h2>Address</h2>
+    <address>
+        <p>{city}</p>
+        <p>{state}</p>
+    </address>
+    <h3>Skills</h3>
+    <ol>
+        {
+            skills.map((skill) => {
+                return <li>{skill}</li>
+            })
+        }
+    </ol>
+</div>
+
+
+
+const App = () => {
+    const id = 1;
+    const name = 'Subramanian'
+    const status = true
+    const address = {
+        city: 'Coimbatore',
+        state: 'Tamil Nadu'
+    }
+    const skills = ['Java', 'Javascript', 'react', 'Next', 'Microservices']
+
+    //return User('Subramanian',1);
+    return <>
+        <User name={name} id={id} status={status} address={address} skills={skills} />
+        <User name={'Ram'} id={2} status={status} address={{ city: 'Chennai', state: 'Tamil Nadue' }} skills={['Devops', 'Cloud']} />
+    </>
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+
+.....................................................................................
+				Modularization and Props
+
+When component is broken into many components , data also need to be transfered from the parent to child.
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+
+
+export const Address = ({ city, state }) => <>
+    <h2>Address</h2>
+    <address>
+        <p>{city}</p>
+        <p>{state}</p>
+    </address>
+</>
+const Skills = ({ skills }) => <><h3>Skills</h3>
+    <ol>
+        {
+            skills.map((skill) => {
+                return <li>{skill}</li>
+            })
+        }
+    </ol>
+</>
+export const UserDetails = ({ id, name, status, address, skills }) => <> <h1>Id : {id}</h1>
+    <h2>Name : {name}</h2>
+    <h3>Status: {status ? "Available" : "Not Available"}</h3>
+    <Address address={address} />
+    <Skills skills={skills} />
+</>
+
+export const User = ({ id, name, status, address, skills }) => <div>
+    <UserDetails id={id} name={name} address={address} skills={skills} />
+</div>
+
+
+
+const App = () => {
+    const id = 1;
+    const name = 'Subramanian'
+    const status = true
+    const address = {
+        city: 'Coimbatore',
+        state: 'Tamil Nadu'
+    }
+    const skills = ['Java', 'Javascript', 'react', 'Next', 'Microservices']
+
+    //return User('Subramanian',1);
+    return <>
+        <User name={name} id={id} status={status} address={address} skills={skills} />
+        <User name={'Ram'} id={2} status={status} address={{ city: 'Chennai', state: 'Tamil Nadue' }} skills={['Devops', 'Cloud']} />
+    </>
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+....................................................................................
+			  Property rethrow
+....................................................................................
+
+React uses a opertaor called "Spread Operator" to refactor passing props from the parent child.
+
+export const User = ({ id, name, status, address, skills }) => <div>
+    <UserDetails id={id} name={name} address={address} skills={skills} />
+</div>
+ In this code we pass every prop manually, which makes code more complex.
+
+The above code can be simplified using 'spread operator'
+
+export const User = props => <div>
+    <UserDetails {...props} />
+</div>
+.....................................................................................
+			  Default Props
+...................................................................................
+
+What if i dont pass props to the child component, which causes runtime error.
+in order to avoid runtime errors, and also configure the componet with default Default Props.
+
+import ReactDOM from 'react-dom/client';
+
+const id = 1;
+const name = 'Subramanian'
+const status = true
+const address = {
+    city: 'Coimbatore',
+    state: 'Tamil Nadu'
+}
+const skills = ['Java', 'Javascript', 'react', 'Next', 'Microservices']
+
+const User = () => <div>
+    <UserDetails />
+    <UserDetails id={id} name={name} />
+
+</div>
+
+const UserDetails = props => {
+    return <div>
+        <h1>Id : {props.id}</h1>
+        <h2>Name : {props.name}</h2>
+        <h3>Status: {props.status ? "Available" : "Not Available"}</h3>
+        <h2>Address</h2>
+        <address>
+            <p>{props.address.city}</p>
+            <p>{props.address.state}</p>
+        </address>
+        <h3>Skills</h3>
+        <ol>
+            {
+                props.skills.map((skill) => {
+                    return <li>{skill}</li>
+                })
+            }
+        </ol>
+    </div>
+}
+
+//default Property
+UserDetails.defaultProps  = {
+    id: 0,
+    name: 'Your Name',
+    status: false,
+    skills:['skill1','skill2','skill3'],
+    address: {
+        city: 'Your City',
+        state: 'Your State'
+    }
+}
+
+
+
+const App = () => <User />
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+	
+.....................................................................................
+				class Component with Props
+
+import ReactDOM from 'react-dom/client';
+import React from 'react';
+
+const id = 1;
+const name = 'Subramanian'
+const status = true
+const address = {
+    city: 'Coimbatore',
+    state: 'Tamil Nadu'
+}
+const skills = ['Java', 'Javascript', 'react', 'Next', 'Microservices']
+
+const User = () => <div>
+    <UserDetails />
+    <UserDetails id={id} name={name} />
+
+</div>
+
+class UserDetails extends React.Component {
+
+    render() {
+        return <div>
+            <h1>Id : {this.props.id}</h1>
+            <h2>Name : {this.props.name}</h2>
+            <h3>Status: {this.props.status ? "Available" : "Not Available"}</h3>
+            <h2>Address</h2>
+            <address>
+                <p>{this.props.address.city}</p>
+                <p>{this.props.address.state}</p>
+            </address>
+            <h3>Skills</h3>
+            <ol>
+                {
+                    this.props.skills.map((skill) => {
+                        return <li>{skill}</li>
+                    })
+                }
+            </ol>
+        </div>
+    }
+}
+
+//default Property
+UserDetails.defaultProps = {
+    id: 0,
+    name: 'Your Name',
+    status: false,
+    skills: ['skill1', 'skill2', 'skill3'],
+    address: {
+        city: 'Your City',
+        state: 'Your State'
+    }
+}
+
+
+
+const App = () => <User />
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+.....................................................................................
+			   State Pattern
+.....................................................................................
+
+How to declare state with in component?
+How we can interact with user - Event Handling.
+Hooks
+
+.....................................................................................
+				State
+....................................................................................
+
+What is state?
+  Data is encapsulated inside compoent
+
+How to declare state?
+ =>inside class component - until react 17
+ =>inside functions - using Hooks- Recommended.
+How to interact with ui? - Event handling
+ 
+
+How to mutate state? - Pure functions
+
+
+Eg: How to declare State?
+
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import 'bootstrap/dist/css/bootstrap.css'
+import './index.css'
+import './App.css'
+
+class Review extends React.Component {
+    //state declaration
+    state = {
+        like: 0,
+        dislike: 0
+    }
+    render() {
+        console.log('state ', this.state)
+        return <div className="container">
+            <h1>Review App- State</h1>
+            <h2>Like {this.state.like} Dislike {this.state.dislike}</h2>
+        </div>
+    }
+}
+
+
+const App = () => {
+    return <>
+        <Review />
+    </>
+}
+
+
+const root = ReactDOM.createRoot(document.getElementById('root'))
+root.render(<App />)
+
+.....................................................................................
+
+Event Binding:
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import 'bootstrap/dist/css/bootstrap.css'
+import './index.css'
+import './App.css'
+
+class Review extends React.Component {
+    //state declaration
+    state = {
+        like: 0,
+        dislike: 0
+    }
+    //listener 
+    onLike = () => {
+        //write biz logic to increment likes
+        console.log('onLike')
+    }
+
+    render() {
+        console.log('state ', this.state)
+        return <div className="container">
+            <h1>Review App- State</h1>
+            <h2>Like {this.state.like} Dislike {this.state.dislike}</h2>
+            {/* Event binding */}
+            <button onClick={this.onLike} className="btn btn-success" style={{ padding: 10, marginRight: 10 }}>Like</button>
+            <button className="btn btn-success" style={{ padding: 10, marginRight: 10 }}>Dislike</button>
+        </div>
+    }
+}
+
+
+const App = () => {
+    return <>
+        <Review />
+    </>
+}
+
+
+const root = ReactDOM.createRoot(document.getElementById('root'))
+root.render(<App />)
+..................................................................................
+				 State Mutation
+
+
+
+if you run the code below, the UI update never be triggered
+
+Why?
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import 'bootstrap/dist/css/bootstrap.css'
+import './index.css'
+import './App.css'
+
+class Review extends React.Component {
+    //state declaration
+    state = {
+        like: 0,
+        dislike: 0
+    }
+    //listener 
+    onLike = () => {
+        //write biz logic to increment likes
+        console.log('onLike')
+        this.state.like++
+        console.log('listener state ',this.state)
+        this.render()
+    }
+
+    render() {
+        console.log('render state ', this.state)
+        return <div className="container">
+            <h1>Review App- State</h1>
+            <h2>Like {this.state.like} Dislike {this.state.dislike}</h2>
+            {/* Event binding */}
+            <button onClick={this.onLike} className="btn btn-success" style={{ padding: 10, marginRight: 10 }}>Like</button>
+            <button className="btn btn-success" style={{ padding: 10, marginRight: 10 }}>Dislike</button>
+        </div>
+    }
+}
+
+
+const App = () => {
+    return <>
+        <Review />
+    </>
+}
+
+
+const root = ReactDOM.createRoot(document.getElementById('root'))
+root.render(<App />)
+
+
+
+How React updates UI?
+
+via "render method"
+
+render:
+ 
+=>it is method called by "react engine".
+     can we call render directly inside event listener?
+        Yes,but no impact on ui update 
+    onIncrement = () => {
+         //increment value of state 
+        this.state.value = this.state.value + 1
+        console.log("value : ",this.state.value)
+        this.render()
+    }
+   Note : render should not be called directly
+
+
+...................................................................................
+		Functional Programming Principles and React
+..................................................................................
+Pure Functions:
+
+ Pure functions are defined by two rules
+Rule A and Rule B.
+
+Rule A:
+  If function receives input, the function returns the same input without any mutation.
+  Every Component with respect to props, are pure functions.
+//Pure functions Rule A:
+
+/**
+ *   If function receives input, the function returns the same input without any mutation.
+ */
+//this functio is pure or not?
+
+//this function is impure:React never recommends this type functions
+function updateProfile(profile, city) {
+    profile.city = city
+    return profile;
+}
+const profile = {
+    id: 1,
+    name: 'subramanian',
+    city: 'New York'
+}
+console.log('Before Update', profile)
+const updatedProfile = updateProfile(profile, 'Coimbatore')
+console.log('After Update', updatedProfile)
+
+
+//here the funciton never modifies the variable
+//this function just returns data as it it: Pure function
+//every component is pure function with respect to props
+function Header(props) {
+    return `<h1>${props.name}</h1>`
+}
+console.log(Header({ name: 'subramanian' }))
+
+React and Pure functions Rule A- and props
+
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+
+
+const Greeting = props => {
+    console.log(props)
+    //update props 
+    //props are read only
+    props.name ='foo'
+    return <h1>Hello {props.name}</h1>
+}
+const App = () => {
+    return <Greeting name="Subramanian" />  
+}
+
+
+const root = ReactDOM.createRoot(document.getElementById('root'))
+root.render(<App />)
+.....................................................................................					Rule B
+.....................................................................................
+
+
+What if function receives input, need to be mutated but it should follow the pure function rule.
+
+With help of "Immutablity"
+
+What is immutable?
+
+creating new object every time when you update the object , immutablity.
+
+if the function does that , that function is called pure function.
+
+pure function must return, "immutable object".
+//Pure functions Rule B:
+/**
+ * 
+ What if function receives input, need to be mutated but it should follow the pure function rule.
+
+With help of "Immutablity"
+ */
+
+//pure functions : immutablity
+/**
+ * immutablity implementation patterns
+ *  1.using plain javascript
+ *  2.using Object.assign method
+ *  3.using es 7 spread operator
+ */
+
+function updateProfile(profile, city) {
+    //return new object : profile
+
+    ////1.using plain javascript
+    // return {
+    //     id: profile.id,
+    //     name: profile.name, 
+    //     city: city
+    // }
+    //2.using Object.assign method
+    //  return Object.assign({}, profile, { city: city })
+
+    //using spread operator
+    return { ...profile, city: city }
+}
+const profile = {
+    id: 1,
+    name: 'subramanian',
+    city: 'New York'
+}
+console.log('Before Update', profile)
+const updatedProfile = updateProfile(profile, 'Coimbatore')
+console.log('After Update', updatedProfile)
+//check mutable or immutable 
+console.log(profile === updatedProfile ? "Same Object" : "Different Object")
+
+List of Array immutable apis:
+
+1.concat == Adding new item
+2.map => iterate and transform,update
+3.filter,slice =>delete
+3.reverse,sort - sorting and reversion
+.....................................................................................
+			  Rule B :State Mutations
+.....................................................................................How to call render?
+render is called by react engine only.
+how react engine will triger render?
+  via React api "setState() ,forceUpdate()"
+
+
+Syntax:
+
+setState(updater, [callback])
+
+updater = it is function
+callback =it is also function which optional parameter
+
+updater:
+ function having state mutation logic
+
+step1:
+    this.setState(function(){
+            console.log('state mutation logic goes')
+        })
+
+updater function syntax:
+
+takes two args
+
+1.state  is just variable you can have any name - holds the value of state object
+ which is called as "previous state" or "old state"
+2.props is just variable holding current props variable- which is optional
+
+function(state,[props]){
+            console.log('state mutation logic goes')
+}
+
+function(prevState){
+            console.log('state mutation logic goes')
+}
+
+Updater function returns object, what object, if you want to understand this , we need to under one more functional programming principle called "Pure function 2nd Rule".
+
+Updater function returns object, what object, if you want to understand this , we need to understand one more functional programming principle called "Pure function 2nd Rule".
+
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import 'bootstrap/dist/css/bootstrap.css'
+import './index.css'
+import './App.css'
+
+class Review extends React.Component {
+    //state declaration
+    state = {
+        like: 0, //0 => 1 =>2=>3
+        dislike: 0
+    }
+    //listener 
+    onLike = () => {
+        //implement pure functions
+        this.setState((oldState) => {
+            console.log('Old State/Previous State', oldState)
+            //must return immutable the state of compoent
+            // return {
+            //     like: oldState.like + 1,
+            //     dislike: oldState.dislike
+            // }
+            //return Object.assign({}, oldState, { like: oldState.like + 1 })
+            return { ...oldState, like: oldState.like + 1 }
+        })
+    }
+
+    render() {
+        console.log('current state ', this.state)
+        return <div className="container">
+            <h1>Review App- State</h1>
+            <h2>Like {this.state.like} Dislike {this.state.dislike}</h2>
+            {/* Event binding */}
+            <button onClick={this.onLike} className="btn btn-success" style={{ padding: 10, marginRight: 10 }}>Like</button>
+            {/* inline listener */}
+            <button onClick={() => {
+                this.setState(oldState => {
+                    return { ...oldState, dislike: oldState.dislike + 1 }
+                })
+
+            }} className="btn btn-success" style={{ padding: 10, marginRight: 10 }}>Dislike</button>
+        </div>
+    }
+}
+
+
+const App = () => {
+    return <>
+        <Review />
+    </>
+}
+
+
+const root = ReactDOM.createRoot(document.getElementById('root'))
+root.render(<App />)
+
+Generally The state is also going to represent data, which is mutatble(changeable)
+
+
+
+import ReactDOM from 'react-dom/client';
+import React from 'react';
+
+class Counter extends React.Component {
+
+    //state declaration
+    state = {
+        counter: 0 //inital state
+    }
+    //listener 
+    onIncrement = () => {
+        console.log('button is clicked')
+        // this.setState(function (prvState) {
+        //     //you must return immutable state object 
+        //     //we must return new state every time 
+        //     return {
+        //         counter: prvState.counter + 1
+        //     }
+        // })
+        // this.setState(prvState => {
+        //     return {
+        //         counter: prvState.counter + 1
+        //     }
+        // })
+
+        // this.setState(prvState => {
+        //     //Return object using Object.assign method
+        //     return Object.assign({}, prvState, { counter: prvState.counter + 1 })
+        // })
+        //Using Es 7 Spread Operator
+        this.setState(prvState => {
+            //Return object using Object.assign method
+            return { ...prvState, counter: prvState.counter + 1 }
+        })
+    }
+
+    render() {
+        console.log(this.state)
+        return <div>
+            <h1>Counter App</h1>
+            <h2>Value {this.state.counter}</h2>
+            <button onClick={this.onIncrement} >+</button>
+        </div>
+    }
+}
+
+
+const App = () => <>
+    <Counter />
+</>
+
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+
+....................................................................................
+			  Multiple state variables,inline listeners
+
+import ReactDOM from 'react-dom/client';
+import React from 'react';
+
+class Review extends React.Component {
+
+    //state declaration
+    state = {
+        like: 1,
+        dislike: 10
+    }
+    onLike = () => {
+        this.setState(preState => {
+            // return {
+            //     like: preState.like + 1,
+            //     dislike: preState.dislike
+            // }
+            //return Object.assign({}, preState, { like: preState.like + 1 })
+            return { ...preState, like: preState.like + 1 }
+        })
+    }
+    onDislike = () => {
+        this.setState(preState => {
+            return { ...preState, dislike: preState.dislike + 1 }
+        })
+    }
+
+    render() {
+        console.log(this.state)
+        return <div>
+            <h1>Review App</h1>
+            <h2>Like {this.state.like} Dislike {this.state.dislike}</h2>
+            <button onClick={this.onLike} >Like</button>
+            <button onClick={this.onDislike} >Dislike</button>
+            {/* inline listener */}
+            <button onClick={() => {
+                this.setState(preState => {
+                    return { ...preState, like: preState.like + 1 }
+                })
+            }}>Like</button>
+        </div>
+    }
+}
+
+
+const App = () => <>
+    <Review />
+</>
+
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+.....................................................................................
+			   props and state
+....................................................................................
+
+Component can have
+
+1.state
+2.biz logic-listeners
+3.UI 
+
+According to component driven design , we need to isloate the state and biz logic into one component -StateFull Component
+
+The Component which should recive state data from the component which is called -Stateless component
+
+
+Parent
+1.state
+2.biz logic-listeners
+ 	|
+     state as prop - dynamic props
+Child
+3.UI
+
+
+import ReactDOM from 'react-dom/client';
+import React from 'react';
+
+class Review extends React.Component {
+    state = {
+        like: 1,
+        dislike: 10
+    }
+    onLike = () => {
+        this.setState(preState => {
+            return { ...preState, like: preState.like + 1 }
+        })
+    }
+    onDislike = () => {
+        this.setState(preState => {
+            return { ...preState, dislike: preState.dislike + 1 }
+        })
+    }
+
+    render() {
+        return <div>
+            <ReviewDisplay {...this.state} onLike={this.onLike} onDislike={this.onDislike} />
+        </div>
+    }
+}
+
+const ReviewDisplay = props => {
+    console.log(props)
+    return <> <h1>Review App</h1>
+        <h2>Like {props.like} Dislike {props.dislike}</h2>
+        <button onClick={props.onLike} >Like</button>
+        <button onClick={props.onDislike} >Dislike</button>
+    </>
+}
+
+
+const App = () => <>
+    <Review />
+</>
+
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+.....................................................................................
+				Hooks
+....................................................................................
+What is hook?
+ It is a new feature introduced in react 16.
+ Simple abstraction for class compoents-  how to remove classes from react.
+
+Intention is functional component for every things.
+
+objective of hooks:
+
+1.to eleminate class components as much possible.
+2.Resuable application behaviours
+   eg:ajax calls
+
+
+Hook is just simple javascript function.
+which may take arg or may not.
+Which may or may not return something 	
+
+
+every hook function starts with
+  "use"+functionName ==>hook Syntax
+
+eg:
+"useState"
+"useContext"
+"useEffect"
+"useAjax"
+"useWebSocket"
+"useLayout"
+etc....
+you can create your own hooks as well.
+
+
+Simple Hook:
+import ReactDOM from 'react-dom/client';
+import React, { useState } from 'react';
+
+
+const Counter = props => {
+    //state declaration
+    const [counter, setCounter] = useState(0)
+
+    const onIncrement = () => {
+        setCounter((prevCounter) => {
+            console.log(prevCounter)
+            return prevCounter + 1
+        })
+    }
+
+    return <div>
+        <h1>Counter App</h1>
+        <h1>Counter {counter}</h1>
+        <button onClick={onIncrement}>+</button>
+    </div>
+}
+
+
+const App = () => <>
+    <Counter />
+</>
+
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+.....................................................................................
+import ReactDOM from 'react-dom/client';
+import React, { useState } from 'react';
+
+
+const Review = props => {
+    //state declaration
+    const [review, setReview] = useState({ like: 0, dislike: 0 })
+
+    const onLike = () => {
+        setReview(prevReview => {
+            return { ...prevReview, like: prevReview.like + 1 }
+        })
+    }
+
+    return <div>
+        <h1>Review App</h1>
+        <h1>Like {review.like} Dislike {review.dislike}</h1>
+        <button onClick={onLike}>Like</button>
+        <button onClick={() => {
+            setReview(prevReview => {
+                return { ...prevReview, dislike: prevReview.dislike + 1 }
+            })
+        }}>Dislike</button>
+
+    </div>
+}
+
+
+const App = () => <>
+    <Review />
+</>
+
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
