@@ -370,6 +370,137 @@ Greeter.defaultProps = {
 Assignment:
   Create Blogs in the React Native which already we have done in the React web.
 
+Styles:
+.......
 
+In react Styles are added through css, react native does not css because no html is used.
+
+React Native does not allow css directly. Java script has api to add styles via code.
+
+eg.
+in html
+
+document.getElementById('myid').styles.add.backgroundColor='red'
+
+React Native uses javascript api to add styles to any UI Element.
+
+Style is Object, which contains properties
+
+ element.style.property
+
+StyleSheet
+   A StyleSheet is an abstraction similar to CSS StyleSheets
+
+StyleSheet object has method called "create" mehtod
+
+
+StyleSheet.create({
+ styleProperty: propvalue,
+ stylePropery:{
+    styleProp:propValue
+ }
+});
+
+Refer :https://www.w3schools.com/jsref/dom_obj_style.asp
+
+eg:
+
+import React from 'react';
+import { Text, View, StyleSheet } from 'react-native';
+
+export const { container, text } = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 24,
+        backgroundColor: "#eaeaea"
+    },
+    text: {
+        color: "blue",
+        textAlign: "center",
+        fontSize: 30
+    }
+});
+
+export default function App() {
+    return <View style={container}>
+        <Text style={text}>Hello View!</Text>
+        {/**in line style */}
+        <Text style={{
+            color: "red",
+            textAlign: "center",
+            fontSize: 30
+        }}>Hello View!</Text>
+
+    </View>
+}
+
+// export default function App() {
+//     return <View style={appStyles.container}>
+//         <Text style={appStyles.text}>Hello View!</Text>
+//         {/**in line style */}
+//         <Text style={{
+//             color: "red",
+//             textAlign: "center",
+//             fontSize: 30
+//         }}>Hello View!</Text>
+
+//     </View>
+// }
+// const appStyles = StyleSheet.create({
+//     container: {
+//         flex: 1,
+//         padding: 24,
+//         backgroundColor: "#eaeaea"
+//     },
+//     text: {
+//         color: "#20232a",
+//         textAlign: "center",
+//         fontSize: 30
+//     }
+// });
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+State:
+import { useState } from "react"
+import { View, Text, Button } from 'react-native'
+
+export const Counter = props => {
+    const [value, setValue] = useState(0)
+    const onIncrement = () => {
+         setValue(value + 1)
+    }
+    return <View>
+        <Text>Counter App</Text>
+        <Text>Value {value}</Text>
+        <Button
+          title="Increment"
+          onPress={onIncrement}
+        />
+    </View>
+}
+
+App.js
+
+import { Counter } from "./src/Counter/counter";
+import { View,StyleSheet } from "react-native";
+
+function App() {
+     return <View  style={styles.container}>
+          <Counter />
+     </View>
+}
+export default App;
+
+
+const styles = StyleSheet.create({
+     container: {
+          flex: 1,
+          fontWeight:'bold',
+          backgroundColor: 'pink',
+          alignItems: 'center',
+          justifyContent: 'center',
+     },
+});
 
 
