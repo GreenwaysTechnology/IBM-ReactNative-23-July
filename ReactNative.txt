@@ -136,3 +136,240 @@ All views are executed by platform runtimes eg: android by art.
 All javascript is executed by Hermes Js engine.
 https://hermesengine.dev/
 //////////////////////////////////////////////////////////////////////////////////////////////
+
+How to build react native apps?
+
+
+React native apps can be built using two work flows.
+
+
+1.Native Work flow
+
+ If you are already familiar with mobile development, you may want to use React Native CLI.
+ It requires Xcode or Android Studio to get started. If you already have one of these tools installed, you should be able to get up and running within a few minutes. If they are not installed, you should expect to spend about an hour installing and configuring them.
+
+2.Expo Work Flow.
+  If you are new to mobile development, the easiest way to get started is with Expo CLI. Expo is a set of tools built around React Native and, while it has many features, the most relevant feature for us right now is that it can get you writing a React Native app within minutes
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+Native work flow:
+ 
+if you want to build professional mobile app you need lot of infrastructure.
+ UI Components
+    -Views,Text,Labels,ListViews,ScrollView,TabView...........
+
+React native core team provides all core components necessary to build mobile apps.
+
+What if i want more components which is not supported by react core team.
+
+YOu need to look at community or companies who provides professional mobile apps.
+
+-Community -https://reactnative.directory/
+
+
+Expo Work flow:
+...............
+What is expo?
+
+ Expo is a framework and a platform for universal React applications. It is a set of tools and services built around React Native and native platforms that help you develop, build, deploy, and quickly iterate on iOS, Android, and web apps from the same JavaScript/TypeScript codebase.
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+Setup :
+
+Expo work flow Setup
+....................
+
+1.install expo-cli
+
+npm install -g expo-cli
+
+2.Create project
+
+expo init AwesomeProject
+cd AwesomeProject
+npm start # you can also use: expo start
+
+Expo apps can be created in two ways
+
+
+Managed Work flow:
+
+  With the managed workflow you only write JavaScript / TypeScript and Expo tools and services take care of everything else for you.
+
+  The managed workflow is kind of like Rails and Create React App, but for React Native.
+
+Apps are built with the managed workflow using the expo-cli, the Expo Go app on your mobile device, and our various services: push notifications, the build service, and over-the-air (OTA) updates. 
+
+Expo tries to manage as much of the complexity of building apps for you as we can, which is why we call it the managed workflow.
+
+ A developer using the managed workflow doesn't use Xcode or Android Studio, they just write JavaScript code and manage configuration for things like the app icon and splash screen through app.json.
+
+ The Expo SDK exposes an increasingly comprehensive set of APIs that give you the power to access device capabilities like the camera, biometric authentication, file system, haptics, and so on.
+
+Bare Work flow:
+
+  In the bare workflow you have full control over every aspect of the native project, and Expo tools and services are a little more limited.
+
+In the bare workflow the developer has complete control, along with the complexity that comes with that. You can use most APIs in the Expo SDK, but the build service and easy Configuration with app.json / app.config.js are not yet supported.
+
+Running your React Native application in case of expo work flow:
+.................................................................
+
+1.You can run and test app inside browser itself- this is not recommended for complex apps.
+
+2.You can run inside your device directly.
+  Expo offers called expo client.
+3.You can use emulators -Andorid virtual devices or emulators.
+
+Metro Bundler:
+-Online compiler, compiles code into react native 
+////////////////////////////////////////////////////////////////////////////////////////////
+
+
+Create Native Project: Using native work flow:
+..............................................
+
+Steps:
+......
+
+1.npm install react-native-cli -g
+
+2.Create Project
+ react-native init AwesomeNativeProject
+
+3.Running Project
+ Run instructions for Android:
+    • Have an Android emulator running (quickest way to get started), or a device connected.
+    • cd "C:\session\ibm\2021\march\reactnative\AwesomeNativeProject" && npx react-native run-android
+
+Android Builder:
+info Running jetifier to migrate libraries to AndroidX. You can disable it using "--no-jetifier" flag.
+Jetifier found 903 file(s) to forward-jetify. Using 12 workers...
+info Starting JS server...
+* daemon not running; starting now at tcp:5037
+* daemon started successfully
+info Launching emulator...
+info Successfully launched emulator.
+info Installing the app...
+Downloading https://services.gradle.org/distributions/gradle-6.7-all.zip
+.............10%..............20%..............30%..............40%..............50%..............60%..............70%..............80%..............90%..............100%
+
+Welcome to Gradle 6.7!
+
+Here are the highlights of this release:
+ - File system watching is ready for production use
+ - Declare the version of Java your build requires
+ - Java 15 support
+
+For more details see https://docs.gradle.org/6.7/release-notes.html
+
+Starting a Gradle Daemon (subsequent builds will be faster)
+File C:\Users\sasub\.android\repositories.cfg could not be loaded.
+Checking the license for package Android SDK Build-Tools 29.0.2 in C:\Users\sasub\AppData\Local\Android\Sdk\licenses
+License for package Android SDK Build-Tools 29.0.2 accepted.
+Preparing "Install Android SDK Build-Tools 29.0.2 (revision: 29.0.2)".
+"Install Android SDK Build-Tools 29.0.2 (revision: 29.0.2)" ready.
+Installing Android SDK Build-Tools 29.0.2 in C:\Users\sasub\AppData\Local\Android\Sdk\build-tools\29.0.2
+"Install Android SDK Build-Tools 29.0.2 (revision: 29.0.2)" complete.
+"Install Android SDK Build-Tools 29.0.2 (revision: 29.0.2)" finished.
+
+> Task :app:compileDebugJavaWithJavac
+
+> Task :app:stripDebugDebugSymbols
+Unable to strip the following libraries, packaging them as they are: libc++_shared.so, libevent-2.1.so, libevent_core-2.1.so, libevent_extra-2.1.so, libfb.so, libfbjni.so, libflipper.so, libfolly_futures.so, libfolly_json.so, libglog.so, libglog_init.so, libhermes-executor-common-debug.so, libhermes-executor-common-release.so, libhermes-executor-debug.so, libhermes-executor-release.so, libhermes-inspector.so, libimagepipeline.so, libjsc.so, libjscexecutor.so, libjsijniprofiler.so, libjsinspector.so, libnative-filters.so, libnative-imagetranscoder.so, libreact_codegen_reactandroidspec.so, libreact_nativemodule_core.so, libreactnativeblob.so, libreactnativejni.so, libreactnativeutilsjni.so, libreactperfloggerjni.so, libturbomodulejsijni.so, libyoga.so.
+
+> Task :app:installDebug
+Installing APK 'app-debug.apk' on 'Nexus_6_API_29(AVD) - 10' for app:debug
+Installed on 1 device.
+
+BUILD SUCCESSFUL in 5m 10s
+29 actionable tasks: 29 executed
+info Connecting to the development server...
+8081
+info Starting the app on "emulator-5554"...
+Starting: Intent { cmp=com.awesomenativeproject/.MainActivity }
+////////////////////////////////////////////////////////////////////////////////////////////
+
+Entry point For react native application? How to mount react native apps?
+
+import {AppRegistry} from 'react-native';
+import App from './App';
+import {name as appName} from './app.json';
+
+AppRegistry.registerComponent(appName, () => App);
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+React Native Application Architecture:
+......................................
+
+React Native apps are collection of components(From react native core,third party components,expo components).
+
+Basic template :
+
+import React from 'react'
+
+Components:
+...........
+Text,View,Image,TextInput,StyleSheet,ScrollView
+
+1.Text --- <p>
+
+import React from 'react';
+import {Text} from 'react-native';
+
+
+export default function App(){
+    return <Text>Hello!</Text>
+}
+
+2.View 
+
+ The most fundamental component for building a UI, View is a container that supports layout with flexbox, style, some touch handling, and accessibility controls. 
+View maps directly to the native view equivalent on whatever platform React Native is running on, whether that is a UIView, <div>, android.view, etc.
+
+import React from 'react';
+import { Text, View } from 'react-native';
+
+
+export default function App() {
+    return <View>
+            <Text>Hello View!</Text>
+    </View>
+}
+
+Any thing will be rendered from left most corner, how to align.
+....................................................................................
+eg:
+import { Greeter } from "./Greeter/Greeter";
+
+function App(){
+     return <>
+         <Greeter name={"Subramanian"} message={"Hello"} />
+     </>
+}
+export default App;
+
+Greeter/Greeter.jsx
+import { Text, View } from "react-native";
+
+export const Greeter = props => {
+    const { name, message } = props;
+    return <View>
+        <Text>{message} {name}</Text>
+    </View>
+}
+//Default Props
+Greeter.defaultProps = {
+    name: 'Name',
+    message: 'Welcome'
+}
+....................................................................................
+
+Assignment:
+  Create Blogs in the React Native which already we have done in the React web.
+
+
+
+
