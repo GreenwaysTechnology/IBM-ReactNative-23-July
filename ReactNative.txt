@@ -585,6 +585,145 @@ How to declare inline style?
             borderWidth: 4
         }}>{props.message}</Text>
 
+How to use colors?
+
+ -color names; red blue; which is not mostly recommended.
+ -color values ; #
+
+Color apis:
+
+PlatformColor
+   Lets your reference the Platform's color
+
+DynamiColorIOS 
+   It is IOS specific and allows you to specify which colors should be used in light and dark Mode.
+
+PlatformColor(color1, [color2, ...colorN]);
+
+ You can use the PlatformColor function to access native colors on the target platform by supplying the native color’s corresponding string value
+
+If you pass more than one string value to the PlatformColor function, it will treat the first value as the default and the rest as fallback.
+
+PlatformColor('bogusName', 'linkColor');
+
+Supported colors:
+For a full list of the types of system colors supported.
+
+Android:
+R.attr - ?attr prefix
+
+R.color - @android:color prefix
+
+
+iOS (Objective-C and Swift notations):
+
+UIColor Standard Colors
+UIColor UI Element Colors
+
+select method how works?
+ select internally applies if logic to select os
+
+Platform.OS === 'platform' or a Platform.select()
+
+if(Platform.OS==='android'){
+  apply logic for android
+}else{ 
+  apply logic for ios
+}
+
+Platform.select({
+  android:{
+    
+  },
+  ios:{
+    
+  },
+  default:{
+
+ }
+})
+
+StyleSheet.create({
+  container: {
+  width:100,
+
+  ...Platform.select({
+  android:{
+    backgroundColor:'green'
+  },
+  ios:{
+     backgroundColor:'yellow'
+  },
+  },
+  default:{
+     backgroundColor:'gray'
+  }
+})
+	
+  }
+
+})
+
+How to use Platform.select method:
+.................................
+import { StyleSheet, View, Text, Platform } from "react-native"
+
+export default function App() {
+    return <View style={styles.container}>
+        <Text>Welcome</Text>
+    </View>
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex:1,
+        ...Platform.select({
+            ios: {
+                color: 'red',
+                backgroundColor: 'yellow'
+
+            },
+            android: {
+                color: 'green',
+                backgroundColor: 'pink'
+            },
+            default: { color: 'black' }
+        })
+    }
+})
+.................................................................................
+How to use Platform.select and PlatformColor function:
+..................................................................................
+
+
+import { StyleSheet, View, Text, Platform,PlatformColor } from "react-native"
+
+export default function App() {
+    return <View style={styles.container}>
+        <Text>Welcome</Text>
+    </View>
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex:1,
+        ...Platform.select({
+            ios: {
+                color: PlatformColor('label'),
+                backgroundColor:  PlatformColor('systemTealColor')
+
+            },
+            android: {
+                color: PlatformColor('?android:attr/textColor'),
+                backgroundColor: PlatformColor('@android:color/holo_blue_bright')
+            },
+            default: { color: 'black' }
+        })
+    }
+})
+
+
+
 .....................................................................................
 			Height and width
 .....................................................................................
