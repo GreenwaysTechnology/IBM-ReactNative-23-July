@@ -15,8 +15,8 @@ const styles = StyleSheet.create({
         marginTop: 1,
         backgroundColor: 'aliceblue',
         minHeight: 200,
-        flexDirection:'column',
-        alignItems:'stretch',
+        flexDirection:'row',
+        alignItems:'center',
 
     },
     box: {
@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
         width: 50
     }
 })
+
 const App = () => {
     return <MyComponent />
 }
