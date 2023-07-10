@@ -1,30 +1,86 @@
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, Text, StatusBar, ActivityIndicator, FlatList } from "react-native"
+import { useEffect, useState } from "react"
 
-const MyComponent = props => {
+const Todo = () => {
+    const [todos, setTodos] = useState({
+        error: null,
+        isLoaded: false,  //spinners or progress bar 
+        items: [] //todo data 
+    })
+    //ComponentDidMount
+    useEffect(() => {
+        //logic- api call
+        const apiURL = 'https://jsonplaceholder.typicode.com/todos'
+        fetch(apiURL).then(response => {
+            return response.json()
+        }).then(todos => {
+            setTodos({
+                items: todos,
+                isLoaded: true
+            })
+        }).catch(err => {
+            setTodos({
+                isLoaded: true,
+                error: err
+            })
+        })
+
+    }, [])
+
+    //conditional Rendering : rendering ui based on state
+
+    const { error, isLoaded, items } = todos;
+
+    if (error) {
+        return <View>
+            <Text>Error: {error.message}</Text>
+        </View>
+    } else if (!isLoaded) {
+        return <View style={{
+            alignItems: 'center', justifyContent: 'center'
+        }}>
+            <ActivityIndicator size="large" color="#000ff" />
+        </View >
+    } else {
+        //show data
+        return <FlatList
+            keyExtractor={(todo) => {
+                return todo.id
+            }}
+            data={items}
+            renderItem={({ item }) => {
+                const { title } = item
+                return <View style={styles.item} >
+                    <Text style={styles.text}>{title}</Text>
+                </View>
+            }
+
+            }
+        />
+    }
+}
+
+export default function App() {
     return <View style={styles.container}>
-        {/* i want to use existing style + extra style */}
-        <View style={[styles.box, { backgroundColor: 'blue' }]} />
-        <View style={[styles.box, { backgroundColor: 'skyblue' }]} />
-        <View style={[styles.box, { backgroundColor: 'steelblue', width: 'auto', minWidth: 50 }]} />
+        <Text style={{ alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', color: 'red', textAlign: 'center' }} >Todo App</Text>
+        <Todo />
     </View>
 }
 
+//page style :Common style 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 1,
-        backgroundColor: 'aliceblue',
-        minHeight: 200,
-        flexDirection:'column',
-        alignItems:'stretch',
-
+        backgroundColor: 'white',
+        marginTop: StatusBar.currentHeight || 0
     },
-    box: {
-        height: 50,
-        width: 50
+    item: {
+        backgroundColor: '#f9c2ff',
+        padding: 20,
+        marginVertical: 8,
+        marginHorizontal: 8
+    },
+    title: {
+        fontSize: 32
     }
 })
-const App = () => {
-    return <MyComponent />
-}
-export default App;

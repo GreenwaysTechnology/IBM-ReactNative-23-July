@@ -813,15 +813,6 @@ const App = () => {
 
 export default App;
 
-
-
-
-
-
-
-
-
-
 ...................................................................................
 			Layouts Design using Flex box
 ....................................................................................
@@ -883,7 +874,7 @@ flex:1 for Container:
   flex :1 in container means the whole width and height of the screen, let says my screen width is 120px and height is 150px then these values are automatically.
 
 <View style={{flex:1}}>
-  <View
+  <View/>
 
 </View>
 
@@ -1747,4 +1738,894 @@ const App = () => {
     return <MyComponent />
 }
 export default App;
+.....................................................................................
+.....................................................................................
+				Align self - child element 
+....................................................................................
+Align self is similar to Align items and justify content but align self is going to have power child elements can controler their alignments.
+align self can override the values set by alignItems.
+
+
+Elements can align itself.
+
+alignSelf: 'stretch' | 'flex-start',|'flex-end' | 'center'| 'baseline'
+
+import { StyleSheet, View, Text } from 'react-native'
+
+const MyComponent = props => {
+    return <View style={styles.container}>
+        <View
+            style={[
+                styles.box,
+                {
+                    alignSelf:'stretch',
+                    width: 'auto',
+                    minWidth: 50,
+                    backgroundColor: 'red',
+                },
+            ]}
+        />
+        <View style={[styles.box, { backgroundColor: 'skyblue',alignSelf:'center' }]} />
+        <View style={[styles.box, { backgroundColor: 'steelblue',alignSelf:'flex-end' }]} />
+    </View>
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor:'yellow',
+        height:50,
+    },
+    box: {
+        width: 50,
+        height: 50,
+    }
+})
+
+const App = () => {
+    return <MyComponent />
+}
+
+export default App;
+....................................................................................
+			Flex wrap
+....................................................................................
+if more childrens beyond container size, it starts overflow, in order avoid overflow
+meaning that you want to lay elements within container... we can use flex wrap.
+import { StyleSheet, View, Text } from 'react-native'
+
+const MyComponent = props => {
+    // Flex container
+    return <View style={styles.container}>
+        <Text style={styles.headerStyle}>Flex wrap</Text>
+        <View style={styles.elementsContainer}>
+            <View style={{ width: 50, height: 50, backgroundColor: 'red' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'yellow' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'green' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'yellow' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'green' }} />
+            
+            <View style={{ width: 50, height: 50, backgroundColor: 'yellow' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'green' }} />
+            
+            <View style={{ width: 50, height: 50, backgroundColor: 'yellow' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'green' }} />
+            
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+          
+        
+        </ View>
+    </View>
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1
+    },
+    headerStyle: {
+        fontSize: 29,
+        textAlign: 'center',
+        fontWeight: 'bold',
+        marginBottom: 24,
+        color: 'blue'
+    },
+    elementsContainer: {
+        flex: 1,
+        backgroundColor: 'black',
+        flexWrap:'wrap',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        marginBottom: 24
+    }
+
+})
+
+const App = () => {
+    return <MyComponent />
+}
+
+export default App;
+....................................................................................
+				Gap
+....................................................................................
+
+How to allocate space among elements?
+
+ Flex gap
+ =>Column gap
+ =>Row gap				
+
+import { StyleSheet, View, Text } from 'react-native'
+
+const MyComponent = props => {
+    // Flex container
+    return <View style={styles.container}>
+        <Text style={styles.headerStyle}>Flex wrap</Text>
+        <View style={styles.elementsContainer}>
+            <View style={{ width: 50, height: 50, backgroundColor: 'red' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'yellow' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'green' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'yellow' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'green' }} />
+            
+            <View style={{ width: 50, height: 50, backgroundColor: 'yellow' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'green' }} />
+            
+            <View style={{ width: 50, height: 50, backgroundColor: 'yellow' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'green' }} />
+            
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
+          
+        
+        </ View>
+    </View>
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor:'pink'
+    },
+    headerStyle: {
+        fontSize: 29,
+        textAlign: 'center',
+        fontWeight: 'bold',
+        marginBottom: 24,
+        color: 'blue'
+    },
+    elementsContainer: {
+        flex: 1,
+        backgroundColor: 'steelblue',
+        flexWrap:'wrap',
+        flexDirection: 'column',
+        alignContent: 'flex-start',
+        marginBottom: 24,
+        rowGap:10,
+        columnGap:10
+    }
+
+})
+
+const App = () => {
+    return <MyComponent />
+}
+
+export default App;
+....................................................................................
+				Types of layout
+
+1.Absolute 
+2.Relative
+ 
+The layout property called "position"
+
+position: 'top' | 'right' | 'bottom' | left
+
+position property controls the element position. generally elements are positioned according to natural positioning order like row wise or column
+
+Relative:
+ =>This is default layout.
+ =>Elements are positioned relatively to the container.
+
+Absolute:
+  =>The elements are place not based on the normal layout work flow.
+  =>we have to override postion property.
+
+
+import { StyleSheet, View, Text } from 'react-native'
+
+const MyComponent = () => {
+    // Flex container
+    return <View style={styles.container}>
+
+        {/* <View style={[styles.box, { backgroundColor: 'powderblue', top: 25, left: 25, position: 'relative' }]} />
+        <View style={[styles.box, { backgroundColor: 'skyblue', top: 50, left: 50, position: 'relative' }]} />
+        <View />
+        <View style={[styles.box, { backgroundColor: 'red', top: 75, left: 75, position: 'relative' }]} /> */}
+        <View style={[styles.box, { backgroundColor: 'powderblue', top: 25, left: 25, position: 'absolute' }]} />
+        <View style={[styles.box, { backgroundColor: 'skyblue', top: 50, left: 50, position: 'absolute' }]} />
+        <View />
+        <View style={[styles.box, { backgroundColor: 'red', top: 75, left: 75, position: 'absolute' }]} />
+        <View />
+    </View>
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: 'pink',
+        minWidth: 200,
+        marginTop: 10,
+        flexDirection: 'row',
+        flexWrap: 'wrap'
+
+    },
+    box: {
+        height: 50,
+        width: 50
+    }
+
+})
+
+const App = () => {
+    return <MyComponent />
+}
+
+export default App;
+..................................................................................
+				Mixing layout properties
+....................................................................................
+
+Flex direction : row
+Justify content: flex-start
+AlignItems:flex-start
+
+https://yogalayout.com/docs
+....................................................................................
+				 Margins and Padding
+....................................................................................
+Margins will add space outside element in all directions : top,right,bottom,left
+Padding will add space within element in all directions: top,right,bottom,left
+
+marginTop:10
+paddingTop:10
+
+....................................................................................
+				Style Sheet Composition
+...................................................................................
+
+coimbines two styles into one style
+
+StyleeSheet.compose(style1,style2,style3,styleN)
+
+style1 can be overriden by styles2
+
+
+import { StyleSheet, Text, View } from 'react-native'
+
+
+
+const App = props => {
+    return <View style={container}>
+        <Text style={text}>Hello</Text>
+    </View>
+}
+//page style :Common style 
+const page = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 24,
+        backgroundColor: "pink"
+    },
+    text: {
+        fontSize: 30,
+        color: '#000'
+    }
+})
+//list styles 
+
+
+const lists = StyleSheet.create({
+    listContainer: {
+        flex: 1,
+        backgroundColor: '#61dafb'
+    },
+    listItem: {
+        fontStyle: 'italic',
+        fontWeight: 'bold'
+    }
+})
+
+//merge twos 
+const container = StyleSheet.compose(page.container, lists.container)
+const text = StyleSheet.compose(page.text, lists.listItem)
+
+
+export default App; 
+.....................................................................................
+			     ScrollView,ListView,SectionList
+.....................................................................................
+.....................................................................................   			      List 
+
+render more items on single screen:
+
+import { View, Text } from 'react-native'
+
+const App = () => {
+    return <View>
+          <Text>Hello</Text>
+          <Text>Hello</Text> 
+          <Text>Hello</Text>
+          <Text>Hello</Text>
+          <Text>Hello</Text>
+          <Text>Hello</Text>
+          <Text>Hello</Text>
+          <Text>Hello</Text> 
+          <Text>Hello</Text>
+          <Text>Hello</Text>
+          <Text>Hello</Text>
+          <Text>Hello</Text>
+          <Text>Hello</Text>
+          <Text>Hello</Text> 
+          <Text>Hello</Text>
+          <Text>Hello</Text>
+          <Text>Hello</Text>
+          <Text>Hello</Text>
+          <Text>Hello</Text>
+          <Text>Hello</Text> 
+          <Text>Hello</Text>
+          <Text>Hello</Text>
+          <Text>Hello</Text>
+          <Text>Hello</Text>
+          <Text>Hello</Text>
+          <Text>Hello</Text> 
+          <Text>Hello</Text>
+          <Text>Hello</Text>
+          <Text>Hello</Text>
+          <Text>Hello</Text>
+          <Text>Hello</Text>
+          <Text>Hello</Text> 
+          <Text>Hello</Text>
+          <Text>Hello</Text>
+          <Text>Hello</Text>
+          <Text>Hello</Text>
+          <Text>Hello</Text>
+          <Text>Hello</Text> 
+          <Text>Hello</Text>
+          <Text>Hello</Text>
+          <Text>Hello</Text>
+          <Text>Hello</Text>
+          <Text>Hello</Text>
+          <Text>Hello</Text> 
+          <Text>Hello</Text>
+          <Text>Hello</Text>
+          <Text>Hello</Text>
+          <Text>Hello</Text>
+    </View>
+}
+export default App;
+
+When you render this , you will not able to see more items on single screen.
+..................................................................................
+				Scroll Behaviour
+....................................................................................
+			    Types of Views
+
+ ->View
+ ->ScrollView
+ ->ListView
+    ->FlatList
+    ->SectionList
+
+->View
+   View is going to hold child elements , act as container
+->ScrollView
+   View is going to hold child elements,act as container with scrollbar 
+
+ScrollView:
+  It is generic scrolling container that can multiple elements/components.
+  ScrollView supports horizontal or Vertical View.
+
+import {Text, ScrollView } from 'react-native'
+
+const App = () => {
+    return <ScrollView>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+    </ScrollView>
+}
+export default App;
+...................................................................................
+				List View
+.....................................................................................
+
+FlatList:
+=>FlatList component displays a scrolling list of changing but with structured data.
+=>FlatList works well for long list of data,where no of items change over time.
+=>FlatList provides good perfomance benefits over ScrollView
+
+   ScrollView displays the data/items at once, if we have more items , it will take    time
+   FlatList only renders elements that are currently showing on the screen, not all    elements at once
+
+In React:
+
+{array.map(item=><li>{item.text}</li>}
+
+FlatList:
+
+ <FlatList data={TODOS} renderItem={(obj)=>{
+     return <Text >{obj.item.todo.title}</Text>
+ }} />
+
+data:
+  Data prop is called datasource which is plain array
+
+renderItem:
+  Takes an item from data prop and renders it into the list.
+ 
+renderItem({
+ item:ItemObject(todo,Customer),
+ index:number,
+ separators: {
+   highlight:()=>{},
+   unhighlight:()=>{},
+   updateProps:(select:'loading'|'trailing',newProps:any)
+  
+ }
+})
+
+keyExtractor:
+  keyExtractor={(item)=>item.id}
+
+....
+
+import { FlatList, Text, View } from 'react-native'
+import TODOS from './mockdata/todos'
+
+
+const Todo = props => {
+    return <View>
+        <Text>Todo</Text>
+        {/* <FlatList
+            data={props.todos}
+            renderItem={(obj) => {
+                console.log(obj)
+                return <Text>{obj.item.title}</Text>
+            }} /> */}
+        {/* <FlatList
+            data={props.todos}
+            renderItem={({item}) => {
+                console.log(item)
+                return <Text>{item.title}</Text>
+            }} /> */}
+        {/* <FlatList
+            data={props.todos}
+            renderItem={({ item: { title } }) => {
+                return <Text>{title}</Text>
+            }} /> */}
+        <FlatList
+            data={props.todos}
+            renderItem={({ item: { title } }) => <Text>{title}</Text>}
+            keyExtractor={item => item.id}
+        />
+    </View>
+}
+
+
+const App = () => {
+    return <View>
+        <Todo todos={TODOS} />
+    </View>
+
+}
+export default App;
+...................................................................................
+                          Section List
+..................................................................................
+
+It is special list which shows data based on category, showing nested array data
+
+<SectionList sections={list} renderItem=>{} renderSectionHeader={} keyExtractor={} >
+
+Array must have data key to render item.
+
+mock-data/courses.js
+const COURSELIST = [
+  {
+    title: 'User Interface',
+    data: [
+      'HTML',
+      'CSS',
+      'javascript',
+      'Android',
+      'IOS',
+      'Flutter',
+      'React',
+      'Angular',
+      'Vue',
+    ],
+  },
+  {
+    title: 'Back end',
+    data: ['Java', 'C#', 'Microservices', 'Python'],
+  },
+  {
+    title: 'Data Stores',
+    data: ['mysql', 'oracle', 'mongo', 'redis'],
+  },
+];
+export default COURSELIST;
+.....................................................................................
+//Section List 
+import { SectionList, Text, View } from 'react-native'
+import COURSELIST from './mockdata/course'
+
+
+const Course = props => {
+    console.log(props)
+    return <View>
+        <SectionList
+            sections={props.courselist}
+            renderItem={({item}) => {
+                console.log(item)
+                return <Text>{item}</Text>
+            }}
+            keyExtractor={(item, index) => {
+                return item + index
+            }}
+            renderSectionHeader={({ section: { title } }) => {
+                return <Text>{title}</Text>
+            }}
+        />
+        
+       
+
+    </View>
+}
+
+
+const App = () => {
+    return <View>
+        <Course courselist={COURSELIST} />
+    </View>
+
+}
+export default App;
+.....................................................................................
+			 Component LifeCycle hooks
+		     Networking(Web Service Integration)
+
+
+React provides three life cycle phases
+
+1.Mount
+2.Update
+3.UnMount
+
+1.Mount :
+   It is inital stage when components starts creating , rendering into Target.
+
+1.1.constructor 
+  It is called during component creation, generally we never use this constructor
+1.2.render
+  During render , React engine creates "Component Tree or Virtual Tree". Which is not real "Elements" like Text,View.
+ Once the Virtual Tree is ready, React Engine will insert / transform it into platform specific elements, incase browser it becomes "DOM element", Incase Mobile it becomes "Mobile Native Element"
+ 
+1.3.After Mount(After insert into browser or Mobile)
+ 
+2.ComponentDidMount
+   It is life cycle method which is called once the UI has been inserted into target.
+ ComponentDidMount is most usefull life cycle hook which is used to do some resource insentive taks such as
+ =>Web Service calls
+ =>Web socket calls
+ =>Reactive Calls
+ =>Timers
+
+When we use functional component,  there is hook called "useEffect" is used
+....................................................................................
+
+Update Phase:
+............
+
+ Once the UI is ready, then user starts interacting , from there update phase starts.
+Like clicking button, tapping or touching items.
+
+update phase is triggered by "setState(useState),newProps,forceUpdate"
+
+1.render:
+  render is preparing new changes with "virtual Tree"...
+  React Engine will update the new changes in then UI.
+
+2.componentDidUpdate
+  This method is called once the rerendering completed,
+
+ When we use functional component,  there is hook called "useEffect" is used
+...................................................................................
+UnMount:
+  It is last phase when component or component tree is removed from the memory.
+
+ComponentWillUnMount:
+ It is method is called once the component is removed.
+ It is very usefull when you want to remove some resources like event listeners,websocket closing...
+
+.....................................................................................
+Mount and web Service Calls:
+............................
+
+How  to  call rest apis?
+ js provides api called "XHR"
+
+XHR is very low level api used for api communications.
+Now a days we have frameworks/libs for xhr 
+
+Popular libs
+1.fetch -from google
+2.axios - community
+etc..
+
+
+when to make api call calls in UI Apps?
+
+1.during inital render.
+   when you lanuch app you need to load data, that time we need to talk to api.
+2.after user interaction
+   when you submit a form, you press any time, when you press menu...
+
+inside componentDidMount/useEffect is used to initalize
+ =>Ajax calls
+ =>web sockets
+ =>Timers
+ =>Rxjs subscriptions
+
+useEffect(()=>{},[])
+
+When you make api call you have to think three things
+
+1.How to handle data
+2.How to handle error
+3.How to handle slow calls
+
+
+import { StyleSheet, Text, View, Button, Alert, StatusBar, ActivityIndicator, FlatList } from 'react-native'
+import { useEffect, useState } from 'react';
+
+const Todos = props => {
+    //declare state to hold items
+    const [todos, setTodos] = useState({
+        error: null,
+        isLoaded: false,  //spinners or progress bar 
+        items: [] //todo data 
+    })
+    //componentDidMount life cycle method 
+    useEffect(() => {
+        const url = `https://jsonplaceholder.typicode.com/todos`;
+        fetch(url)
+            .then(res => res.json())
+            .then(todos => {
+                console.log(todos)
+                setTodos({
+                    items: todos,
+                    isLoaded: true
+                })
+            })
+            .catch(err => {
+                setTodos({
+                    isLoaded: true,
+                    error: err
+                })
+            })
+    }, [])
+
+    const { error, isLoaded, items } = todos;
+    // conditional rendering:
+    if (error) {
+        return <View>
+            <Text>Error: {error.message}</Text>
+        </View>
+    } else if (!isLoaded) {
+        //show spinner
+        return <View style={{
+            alignItems: 'center', justifyContent: 'center'
+        }}>
+            <ActivityIndicator size="large" color="#000ff" />
+        </View >
+    } else {
+        //show data
+        return <FlatList
+            keyExtractor={(todo) => {
+                return todo.id
+            }}
+            data={items}
+            renderItem={({ item }) => {
+                const { title } = item
+                return <View style={styles.item} >
+                    <Text style={styles.text}>{title}</Text>
+                </View>
+            }
+
+            }
+        />
+    }
+}
+
+const App = () => {
+    return <View style={styles.container}>
+        <Text style={{ alignItems: 'center', justifyContent: 'center',fontWeight:'bold' ,color:'red' ,textAlign:'center'}} >Todo App</Text>
+        <Todos />
+
+    </View>
+}
+
+//page style :Common style 
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor:'white',
+        marginTop: StatusBar.currentHeight || 0
+    },
+    item: {
+        backgroundColor: '#f9c2ff',
+        padding: 20,
+        marginVertical: 8,
+        marginHorizontal: 8
+    },
+    title: {
+        fontSize: 32
+    }
+})
+
+
+
+export default App; 
+
+
+
+
+
+
+
 
