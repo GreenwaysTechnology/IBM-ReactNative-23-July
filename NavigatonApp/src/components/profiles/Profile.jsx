@@ -51,6 +51,9 @@ export const Profile = props => {
                 const { username } = item
                 return <TouchableHighlight onPress={() => {
                     //select item
+                    Alert.alert(JSON.stringify(item))
+                    props.navigation.navigate('ProfileDetails', { item })
+
                 }} activeOpacity={0.6} underlayColor="#DDDDD">
                     <View style={styles.item} >
                         <Text style={styles.text}>{username}</Text>
