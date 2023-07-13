@@ -1,0 +1,9 @@
+{
+  "name": "DemoApp",
+  "displayName": "DemoApp",
+  "expo": {
+    "plugins": [
+      "expo-location"
+    ]
+  }
+}

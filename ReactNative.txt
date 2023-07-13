@@ -4045,6 +4045,512 @@ Note:
 import 'react-native-gesture-handler';
   It must be top of the code always.
 ....................................................................................
+				Expo framework
+...................................................................................
+In order to work with Device features:
+
+When you are creating an app that requires access to potentially senstive information on user's device, such as their location, contacts,camera ...you need to ask for the user's permission first.
+
+
+How to get permission from the device?
+
+expo provides an module to work with permissions on both platforms.
+
+$ expo install expo-permissions
+
+Note : if you are working with particular device feature, device specific permission
+package must also be installed
+
+
+Permission type	Packages
+
+NOTIFICATIONS	expo-notifications
+
+USER_FACING_NOTIFICATIONS	expo-notifications
+
+LOCATION	expo-location
+
+CAMERA	expo-barcode-scanner expo-camera 
+        expo-face-detector expo-image-picker expo-media-library
+
+AUDIO_RECORDING	expo-av
+
+CONTACTS	expo-contacts
+
+MEDIA_LIBRARY MEDIA_LIBRARY_WRITE_ONLY	expo-image-picker
+                                        expo-media-library
+CALENDAR	expo-calendar
+
+REMINDERS	expo-calendar
+
+SYSTEM_BRIGHTNESS expo-brightness
+
+MOTION   expo-sensors	
+
+
+import * as Permission from 'expo-permission'
+
+Objects
+
+1.PermissionResponse
+
+ status: 'granted'|'denied'|'undermined'
+ granted: boolean
+ expires: 'never' | number
+
+Expo project setup:
+...................
+Expo Work flow:
+...............
+What is expo?
+
+ Expo is a framework and a platform for universal React applications. It is a set of tools and services built around React Native and native platforms that help you develop, build, deploy, and quickly iterate on iOS, Android, and web apps from the same JavaScript/TypeScript codebase.
+
+Expo apps can be created in two ways
+
+
+Managed Work flow:
+
+  With the managed workflow you only write JavaScript / TypeScript and Expo tools and services take care of everything else for you.
+
+  The managed workflow is kind of like Rails and Create React App, but for React Native.
+
+Apps are built with the managed workflow using the expo-cli, the Expo Go app on your mobile device, and our various services: push notifications, the build service, and over-the-air (OTA) updates. 
+
+Expo tries to manage as much of the complexity of building apps for you as we can, which is why we call it the managed workflow.
+
+ A developer using the managed workflow doesn't use Xcode or Android Studio, they just write JavaScript code and manage configuration for things like the app icon and splash screen through app.json.
+
+ The Expo SDK exposes an increasingly comprehensive set of APIs that give you the power to access device capabilities like the camera, biometric authentication, file system, haptics, and so on.
+
+Bare Work flow:
+
+  In the bare workflow you have full control over every aspect of the native project, and Expo tools and services are a little more limited.
+
+In the bare workflow the developer has complete control, along with the complexity that comes with that. You can use most APIs in the Expo SDK, but the build service and easy Configuration with app.json / app.config.js are not yet supported.
+
+Running your React Native application in case of expo work flow:
+.................................................................
+
+1.You can run and test app inside browser itself- this is not recommended for complex apps.
+
+2.You can run inside your device directly.
+  Expo offers called expo client.
+3.You can use emulators -Andorid virtual devices or emulators.
+
+Metro Bundler:
+-Online compiler, compiles code into react native 
+////////////////////////////////////////////////////////////////////////////////////////////
+
+Tools:
+1.expo cli - to create manage react native projects
+2.expo go - which is an app used to run expo react native project.
+
+>npx create-expo-app my-expo-app
+√ Downloaded and extracted project files.
+√ Installed JavaScript dependencies.
+
+✅ Your project is ready!
+
+To run your project, navigate to the directory and run one of the following npm commands.
+
+- cd my-expo-app
+- npm run android
+- npm run ios # you need to use macOS to build the iOS project - use the Expo app if you need to do iOS development without a Mac
+- npm run web
+
+Expo with React Native Project:
+https://blog.expo.dev/embracing-expo-modules-in-your-react-native-projects-cd8ed4cbec3.
+
+Installing Expo modules in two quick commands:
+.................................................
+
+Integrating Expo modules to existing React Native projects has never been easier, you can do it in two simple commands:
+
+Install the expo package and Expo module infrastructure to your native project:
+
+npx install-expo-modules
+
+Install the Expo modules you want to use: e.g., to install expo-av, run npx expo-cli install expo-av; or, if you have expo-cli globally installed (recommended), you can run: expo install expo-av.
+
+
+
+.....................................................................................
+			Device specific components 
+....................................................................................
+
+1.Location 
+
+How to use Location Component?
+
+=>Inside expo project.
+=>Can i use Expo Components - Location inside ReactNative Projects
+  Yes, but you have to do some configuration to in order to work properly
+
+The difference between expo projects and react native projects are most of the configuration expo takes automatically like meta files creating and updating
+ "AndroidManifest.xml"
+
+Steps:
+1.Ensure Platform Compatibility.
+2.npx expo install expo-location
+3.App configuration - app.json or app.config.js
+You can configure expo-location using its built-in config plugin if you use config plugins in your project (EAS Build or npx expo run:[android|ios]).
+
+
+app.json
+{
+  "expo": {
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
+        }
+      ]
+    ]
+  }
+}
+eg:
+ "expo": {
+      "plugins": [
+        "expo-location"
+      ]
+    }
+
+Are you using this lib(expo-location) in bare react native project?
+Learn how to configure the native projects in the installation instructions in the expo-location repository.
+
+4.If you're using the iOS or Android Emulators, ensure that Location is enabled.
+https://docs.expo.dev/versions/latest/sdk/location/#enabling-emulator-location
+...
+
+Eg:
+import * as Location from 'expo-location';
+import { StyleSheet, Text, View } from 'react-native';
+import { useState, useEffect } from 'react'
+
+export default function App() {
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+    })();
+  }, []);
+
+  let text = 'Waiting..';
+  if (errorMsg) {
+    text = errorMsg;
+  } else if (location) {
+    text = JSON.stringify(location);
+  }
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.paragraph}>{text}</Text>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
+.....................................................................................
+			Expo-Av : vidio + audio
+.....................................................................................
+
+steps:
+
+npx expo install expo-av
+
+app.json
+"expo": {
+      "plugins": [
+        "expo-location",
+        "expo-network",
+        "expo-camera",
+        "expo-av"
+      ]
+    },
+
+import React, { useState, useRef } from 'react';
+import { View, StyleSheet, Button } from 'react-native';
+import { Video } from 'expo-av';
+
+export default function App() {
+  const video = useRef(null);
+  const [status, setStatus] = useState({});
+  return (
+    <View style={styles.container}>
+      <Video
+        ref={video}
+        style={styles.video}
+        source={{
+          uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
+        }}
+        useNativeControls
+        resizeMode="contain"
+        isLooping
+        onPlaybackStatusUpdate={status => setStatus(() => status)}
+      />
+      <View style={styles.buttons}>
+        <Button
+          title={status.isPlaying ? 'Pause' : 'Play'}
+          onPress={() =>
+            status.isPlaying ? video.current.pauseAsync() : video.current.playAsync()
+          }
+        />
+      </View>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: '#ecf0f1',
+  },
+  video: {
+    alignSelf: 'center',
+    width: 320,
+    height: 200,
+  },
+  buttons: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
+.....................................................................................
+			  State Management using "Redux"
+.....................................................................................
+
+State means data:
+
+State is encapsulated with in the component and we update using event listener.
+
+What if i want to share state across multiple components,Thats where we have centeralzed place to store ,process the data(state), so that any component in the application can derive.
+
+Redux Principles:
+1.Single Source of Truth 
+   The whole application state is stored in single location.
+   The app state is represented by single literal object
+
+const appState = {
+   payment: {
+   
+   },
+   product: {
+
+   },
+   customer: {
+
+   }
+}
+
+2.State is readOnly
+    The state(data) cant be changed/updated directly.
+   User interface(component) must send (emit) request(action), which is object describing what happened.
+  
+   let paymentAction = {
+         type:'PAYMENT',
+         payload: { 
+            cardId:'223233454'
+            amount:1000
+         }     
+   }
+ Component ->Event Listener---emit action(paymentAction)----->Redux--Execute biz logic---return new Result
+
+3.Changes are made with pure function.
+
+   Pure function is just javascript function which always returns "immutable object"
+(new Object) ,describing the new State
+   
+   In Redux, reducers are pure functions
+
+
+Redux programming types:
+
+1.Legacy redux
+   Old way of writing redux apps
+2.Modern Redux
+   New of way of writting redux apps
+  Redux toolkit is framework built on the top of Legacy Redux.
+
+For new Project:
+npx create-react-app myreduxapp --template redux
+
+for existing project
+
+npm install @reduxjs/toolkit  react-redux
+
+
+Redux Core concepts:
+
+1.store
+   Store is just object.
+
+Roles:
+ Store is going to store the application state
+ Store object provides apis to enable workflow of react-redux application
+   =>Having biz logic -  reducer
+   =>Receive request from the component -  action
+   =>Send updated state to again component.
+
+2.Reducer
+   Reducer is just javascript function.
+   Pure function is just functional programming concept.
+
+3.action
+   just object which is eq to request in http programming
+
+4.Dispatcher
+  Dispatcher is just transporter which carries action object to store 
+
+
+Step 1: 
+Create Store Object.
+  Redux toolkit offers an api called "configureStore" method
+
+Step 2:
+  Declare Reducer
+
+import { configureStore } from '@reduxjs/toolkit';
+
+//Reducer 
+const CounterReducer = (counter = 0, action) => {
+    //biz logic 
+    switch (action.type) {
+        case 'counter/increment':
+            //immutable logic 
+            return counter + 1
+        default:
+            return counter; // inital counter 
+    }
+
+}
+//create Store Object  
+const store = configureStore({
+    reducer: {
+        counter: CounterReducer
+    }
+
+})
+
+in order to connect react with redux. 
+we need to use react-redux binding lib.
+
+Provider:
+  It is top level component in the react compoent tree
+
+const App=()=> {
+
+   return <Provider>
+		
+	  </Provider>
+}
+...
+Simple ReactNative with Redux:
+import { StatusBar } from 'expo-status-bar';
+import { useState } from 'react';
+import { Button, StyleSheet, Text, View } from 'react-native';
+import { configureStore } from '@reduxjs/toolkit';
+import { Provider, useDispatch, useSelector } from 'react-redux';
+
+//Reducer 
+const CounterReducer = (value = 10, action) => {
+    //biz logic 
+    switch (action.type) {
+        case 'counter/increment':
+            //immutable logic 
+            return value + 1
+        default:
+            return value; // inital counter 
+    }
+
+}
+//create Store Object  
+const store = configureStore({
+    reducer: {
+        //reducerName:ReducerValue
+        counter: CounterReducer
+    }
+})
+
+const Counter = props => {
+    //grab state from the redux 
+    const counter = useSelector(state => {
+        //appstate.reducerName.reducerProp
+        console.log(state)
+        return state.counter
+    })
+    //dispatcher hook 
+    const increment = useDispatch();
+
+    //listener 
+    const onIncrement = () => {
+        //declare action 
+        // let incrementAction = {
+        //     type: 'counter/increment'
+        // }
+        //send action 
+        //increment(incrementAction)
+        increment({ type: 'counter/increment' })
+
+    }
+
+    return <View>
+        <Text>Counter {counter}</Text>
+        <Button title="+" onPress={onIncrement} />
+        <Button title="+" onPress={() => {
+            increment({ type: 'counter/increment' })
+        }
+        } />
+
+    </View>
+}
+
+
+export default function App() {
+    return (<Provider store={store}>
+        <View style={styles.container}>
+            <Counter />
+            <StatusBar style="auto" />
+        </View>
+    </Provider>);
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: 'pink',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+});
+
+
+
+
+
+
+
+ 
 
 
 
