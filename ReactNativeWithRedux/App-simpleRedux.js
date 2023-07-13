@@ -4,28 +4,14 @@ import { configureStore } from '@reduxjs/toolkit';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 
 //Reducer 
-const IncrementReducer = (mycounter = {
-    value: 10
-}, action) => {
+const CounterReducer = (value = 10, action) => {
     //biz logic 
     switch (action.type) {
         case 'counter/increment':
             //immutable logic 
-            return { ...mycounter, value: mycounter.value + 1 }
+            return value + 1
         default:
-            return mycounter; // inital counter 
-    }
-}
-const DecrementReducer = (mycounter = {
-    value: 100
-}, action) => {
-    //biz logic 
-    switch (action.type) {
-        case 'counter/decrement':
-            //immutable logic 
-            return { ...mycounter, value: mycounter.value - 1 }
-        default:
-            return mycounter; // inital counter 
+            return value; // inital counter 
     }
 
 }
@@ -33,33 +19,37 @@ const DecrementReducer = (mycounter = {
 const store = configureStore({
     reducer: {
         //reducerName:ReducerValue
-        increment: IncrementReducer,
-        decrement: DecrementReducer
+        counter: CounterReducer
     }
 })
 
 const Counter = props => {
     //grab state from the redux 
-    const incrementValue = useSelector(state => {
-        //appState.reducerName
-        return state.increment;
-    })
-    const decrementValue = useSelector(state => {
-        //appState.reducerName
-        return state.decrement;
+    const counter = useSelector(state => {
+        //appstate.reducerName.reducerProp
+        console.log(state)
+        return state.counter
     })
     //dispatcher hook 
     const increment = useDispatch();
-    const decrement = useDispatch();
+
+    //listener 
+    const onIncrement = () => {
+        //declare action 
+        // let incrementAction = {
+        //     type: 'counter/increment'
+        // }
+        //send action 
+        //increment(incrementAction)
+        increment({ type: 'counter/increment' })
+
+    }
 
     return <View>
-        <Text>Counter Increment {incrementValue.value} Counter Decrement {decrementValue.value}</Text>
+        <Text>Counter {counter}</Text>
+        <Button title="+" onPress={onIncrement} />
         <Button title="+" onPress={() => {
             increment({ type: 'counter/increment' })
-        }
-        } />
-        <Button style={{marginTop: 50}} title="-" onPress={() => {
-            decrement({ type: 'counter/decrement' })
         }
         } />
 
