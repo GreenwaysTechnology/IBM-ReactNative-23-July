@@ -4686,6 +4686,98 @@ const Counter = props => {
     </View>
 }
 
+export default function App() {
+    return (<Provider store={store}>
+        <View style={styles.container}>
+            <Counter />
+            <StatusBar style="auto" />
+        </View>
+    </Provider>);
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: 'pink',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+});
+.....................................................................................
+				Action Constants
+.....................................................................................
+import { StatusBar } from 'expo-status-bar';
+import { Button, StyleSheet, Text, View } from 'react-native';
+import { configureStore } from '@reduxjs/toolkit';
+import { Provider, useDispatch, useSelector } from 'react-redux';
+
+//Action constants 
+const counterIncrement = 'counter/increment';
+const counterDecrement = 'counter/decrement'
+
+//Reducer 
+const IncrementReducer = (mycounter = {
+    value: 10
+}, action) => {
+    //biz logic 
+    switch (action.type) {
+        case counterIncrement:
+            //immutable logic 
+            return { ...mycounter, value: mycounter.value + 1 }
+        default:
+            return mycounter; // inital counter 
+    }
+}
+const DecrementReducer = (mycounter = {
+    value: 100
+}, action) => {
+    //biz logic 
+    switch (action.type) {
+        case counterDecrement:
+            //immutable logic 
+            return { ...mycounter, value: mycounter.value - 1 }
+        default:
+            return mycounter; // inital counter 
+    }
+
+}
+//create Store Object  
+const store = configureStore({
+    reducer: {
+        //reducerName:ReducerValue
+        increment: IncrementReducer,
+        decrement: DecrementReducer
+    }
+})
+
+const Counter = props => {
+    //grab state from the redux 
+    const incrementValue = useSelector(state => {
+        //appState.reducerName
+        return state.increment;
+    })
+    const decrementValue = useSelector(state => {
+        //appState.reducerName
+        return state.decrement;
+    })
+    //dispatcher hook 
+    const increment = useDispatch();
+    const decrement = useDispatch();
+
+    return <View>
+        <Text>Counter Increment {incrementValue.value} Counter Decrement {decrementValue.value}</Text>
+        <Button title="+" onPress={() => {
+            increment({ type: counterIncrement })
+        }
+        } />
+        <Button style={{ marginTop: 50 }} title="-" onPress={() => {
+            decrement({ type: counterDecrement })
+        }
+        } />
+
+    </View>
+}
+
 
 
 export default function App() {
@@ -4705,17 +4797,1012 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
 });
+.....................................................................................
+			How to pass input to  the Reducer.
+
+import { StatusBar } from 'expo-status-bar';
+import { Button, StyleSheet, Text, View } from 'react-native';
+import { configureStore } from '@reduxjs/toolkit';
+import { Provider, useDispatch, useSelector } from 'react-redux';
+
+//Action constants 
+const counterIncrement = 'counter/increment';
+const counterIncrementBy = 'counter/incrementBy'
+
+//Reducer 
+const counterReducer = (mycounter = {
+    value: 10
+}, action) => {
+    //biz logic 
+    switch (action.type) {
+        case counterIncrement:
+            //immutable logic 
+            return { ...mycounter, value: mycounter.value + 1 }
+        case counterIncrementBy:
+            return {
+                ...mycounter, value: mycounter.value + action.payload
+            }
+        default:
+            return mycounter; // inital counter 
+    }
+}
+
+//create Store Object  
+const store = configureStore({
+    reducer: {
+        //reducerName:ReducerValue
+        counter: counterReducer,
+    }
+})
+
+const Counter = props => {
+    //grab state from the redux 
+    const incrementValue = useSelector(state => {
+        //appState.reducerName
+        return state.counter;
+    })
+    //dispatcher hook 
+    const increment = useDispatch();
+    const incrementBy = useDispatch();
+
+    const onIncrementBy = () => {
+        //passing data to the reducer
+        incrementBy({ type: counterIncrementBy, payload: 2 })
+    }
+
+    return <View>
+        <Text>Counter Increment {incrementValue.value} Counter Increment By {incrementValue.value}</Text>
+        <Button title="+" onPress={() => {
+            increment({ type: counterIncrement })
+        }
+        } />
+        <Button title="IncrementBy" onPress={onIncrementBy} />
+
+    </View>
+}
 
 
 
- 
+export default function App() {
+    return (<Provider store={store}>
+        <View style={styles.container}>
+            <Counter />
+            <StatusBar style="auto" />
+        </View>
+    </Provider>);
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: 'pink',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+});
+...................................................................................
+  	How to get input from the user and pass it to reducer
+...................................................................................
+
+Steps:
+1.Get Input from the user
+2.Populate input value into state variable
+3.create action creator which returns action object with dynamic payload.
+4.dispatch action along with dynamic value.
+
+import { StatusBar } from 'expo-status-bar';
+import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { configureStore } from '@reduxjs/toolkit';
+import { Provider, useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
+
+//Action constants 
+const counterIncrementBy = 'counter/incrementBy'
+
+//Reducer 
+const counterReducer = (mycounter = {
+    value: 10
+}, action) => {
+    //biz logic 
+    switch (action.type) {
+        case counterIncrementBy:
+            return {
+                ...mycounter, value: mycounter.value + action.payload
+            }
+        default:
+            return mycounter; // inital counter 
+    }
+}
+
+//create Store Object  
+const store = configureStore({
+    reducer: {
+        //reducerName:ReducerValue
+        counter: counterReducer,
+    }
+})
+
+const Counter = props => {
+
+    const [input, setInput] = useState(1);
+
+    //grab state from the redux 
+    const incrementValue = useSelector(state => {
+        //appState.reducerName
+        return state.counter;
+    })
+    //dispatcher hook 
+    const incrementBy = useDispatch();
+
+    //Action creator 
+    const incrementActionCreator = value => {
+        return {
+            type: counterIncrementBy,
+            payload: value
+        }
+    }
+    const onIncrementBy = () => {
+        //passing data to the reducer
+         incrementBy(incrementActionCreator(parseInt(input)))
+    }
+    const onInput = (value) => {
+        //How to read textbox value 
+          setInput(value)
+    }
+
+    return <View>
+        <Text>Counter Increment By {incrementValue.value}</Text>
+        <TextInput onChangeText={onInput} keyboardType='numeric' style={{ backgroundColor: 'white' }} />
+        <Button title="IncrementBy" onPress={onIncrementBy} />
+
+    </View>
+}
+
+
+
+export default function App() {
+    return (<Provider store={store}>
+        <View style={styles.container}>
+            <Counter />
+            <StatusBar style="auto" />
+        </View>
+    </Provider>);
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: 'pink',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+});
+....................................................................................
+			 Complex State Update
+			 (Nested State Update)
+
+simple property:
+
+function counter(counterobj,value) { 
+
+ return {
+    value: value +1
+  }
+ return Object.assign({},counterobj,value:{counterobject.value + value}
+ return {...counterobj,value:counterobj.value +value}
+
+}
+
+
+pure function to update object	
+
+function updateHero(hero, role) {
+    return { ...hero, role: role }
+}
+
+let hero = {
+    id: 1,
+    name: 'foo',
+    role: 'Action'
+}
+updateHero(hero,'Drama')
+.................................
+
+function incrementPoints(customer, incrementBy) {
+    //increment by two 
+    return {
+        ...customer,  // level -0 clone outter properties only 
+        house: {
+            ...customer.house, // level 2
+            points: customer.house.points + incrementBy     //clone all properties 								   except points
+        }
+    }
+}
+
+
+let customer = {
+    name: 'Subramanian',
+    house: {
+        name: 'RavenClaw',
+        points: 10 // increment this points
+    }
+}
+
+incrementPoints(customer,2)
+.....................................................................................
+
+Update Mobile No
+
+function updateCustomer(customer, mobileNo) {
+
+    return {
+        ...customer, // level-0 id,name,contact
+        contact: {
+            ...customer.contact, // Level-1 // address
+            communication: {
+                ...customer.contact.communication, // Level -2
+                mobileno: mobileNo
+            }
+        }
+    }
+}
+let customer = {
+    id: 1,
+    name: 'Subramanian',
+    contact: {
+        address: {
+            city: 'Coimbatore'
+        },
+        communication: {
+            email: 'admin@gmail.com',
+            mobileno: '9000000000'
+        }
+    }
+}
+const updatedCustomer = updateCustomer(customer, '8098245789')
+
+...................................................................................
+			  Complex State update 
+
+
+import { StatusBar } from 'expo-status-bar';
+import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { configureStore } from '@reduxjs/toolkit';
+import { Provider, useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
+
+//Action constants 
+const counterIncrementBy = 'counter/incrementBy'
+
+//Reducer 
+const PointsReducer = (customer = {
+    name: 'Subramanian',
+    house: {
+        name: 'RavenClaw',
+        points: 10 // increment this points
+    }
+}, action) => {
+    //biz logic 
+    switch (action.type) {
+        case counterIncrementBy:
+            return {
+                ...customer,  // level -0 clone outter properties only 
+                house: {
+                    ...customer.house, // level 2
+                    points: customer.house.points + action.payload     //clone all properties 								   except points
+                }
+            }
+        default:
+            return customer; // inital counter 
+    }
+}
+
+//create Store Object  
+const store = configureStore({
+    reducer: {
+        //reducerName:ReducerValue
+        points: PointsReducer,
+    }
+})
+
+const Points = props => {
+
+    //grab state from the redux 
+    const customerPoints = useSelector(state => {
+        //appState.reducerName
+        return state.points;
+    })
+    //dispatcher hook 
+    const incrementBy = useDispatch();
+
+    //Action creator 
+    const incrementActionCreator = value => {
+        return {
+            type: counterIncrementBy,
+            payload: value
+        }
+    }
+    const onIncrementBy = () => {
+        //passing data to the reducer
+        incrementBy(incrementActionCreator(2))
+    }
+    return <View>
+        <Text>
+            Customer Name : {customerPoints.name}
+        </Text>
+        <Text>
+            House Name : {customerPoints.house.name}
+        </Text>
+        <Text>
+            House Points : {customerPoints.house.points}
+        </Text>
+        <Button title="IncrementBy" onPress={onIncrementBy} />
+
+    </View>
+}
+
+
+
+export default function App() {
+    return (<Provider store={store}>
+        <View style={styles.container}>
+            <Points />
+            <StatusBar style="auto" />
+        </View>
+    </Provider>);
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: 'pink',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+});
+...................................................................................
+			Writing state mutation logic without complex 
+			     spread operator
+
+Writing spread logic like regular javascript syntax
+				
+
+without immer:
+ {
+     ...customer,  // level -0 clone outter properties only 
+         house: {
+                    ...customer.house, // level 2
+                    points: customer.house.points + action.payload    
+                }
+ }
+
+with immer Js 
+  customer.house.points = customer.house.points + 2
+
+Install immer js
+
+npm install immer
+
+
+Using Immer's produce function:
+import { StatusBar } from 'expo-status-bar';
+import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { configureStore } from '@reduxjs/toolkit';
+import { Provider, useDispatch, useSelector } from 'react-redux';
+import { produce } from 'immer';
+
+//Action constants 
+const counterIncrementBy = 'counter/incrementBy'
+
+//Reducer 
+const PointsReducer = (customer = {
+    name: 'Subramanian Murugan',
+    house: {
+        name: 'RavenClaw',
+        points: 20 // increment this points
+    }
+}, action) => {
+    //biz logic 
+    switch (action.type) {
+        case counterIncrementBy:
+            return produce(customer, (draft) => {
+                draft.house.points += 2
+            })
+        default:
+            return customer; // inital counter 
+    }
+}
+
+//create Store Object  
+const store = configureStore({
+    reducer: {
+        //reducerName:ReducerValue
+        points: PointsReducer,
+    }
+})
+
+const Points = props => {
+
+    //grab state from the redux 
+    const customerPoints = useSelector(state => {
+        //appState.reducerName
+        return state.points;
+    })
+    //dispatcher hook 
+    const incrementBy = useDispatch();
+
+    //Action creator 
+    const incrementActionCreator = value => {
+        return {
+            type: counterIncrementBy,
+            payload: value
+        }
+    }
+    const onIncrementBy = () => {
+        //passing data to the reducer
+        incrementBy(incrementActionCreator(2))
+    }
+    return <View>
+        <Text>
+            Customer Name : {customerPoints.name}
+        </Text>
+        <Text>
+            House Name : {customerPoints.house.name}
+        </Text>
+        <Text>
+            House Points : {customerPoints.house.points}
+        </Text>
+        <Button title="IncrementBy" onPress={onIncrementBy} />
+
+    </View>
+}
+
+
+
+export default function App() {
+    return (<Provider store={store}>
+        <View style={styles.container}>
+            <Points />
+            <StatusBar style="auto" />
+        </View>
+    </Provider>);
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: 'pink',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+});
+.....................................................................................
+.....................................................................................
+			 Reducers -Deep dive
+.....................................................................................
+Redux toolkit offers various ways to write reducers.
+
+Way 1:
+  Plain js pattern - old pattern
+
+const CounterReducer = (counter = { value: 30 }, action) => {
+    //biz logic : immutable logic
+    switch (action.type) {
+        case counterincrement:
+            return produce(counter, draft => {
+                draft.value++
+            })
+        case counterincrementBy:
+            return produce(counter, draft => {
+                draft.value += action.payload
+            })
+        case counterdecrement:
+            return produce(counter, draft => {
+                draft.value--
+            })
+        default:
+            return counter; //default state/inital state
+    }
+}
+
+....................................................................................
+
+way 2-Abstract reducers using createReducer api from redux toolkit.
+.....................................................................................
 
 
 
 
 
+
+import { StatusBar } from 'expo-status-bar';
+import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { configureStore, createReducer } from '@reduxjs/toolkit';
+import { Provider, useDispatch, useSelector } from 'react-redux';
+import { produce } from 'immer';
+
+//Action constants 
+const counterIncrementBy = 'counter/incrementBy'
+
+//old Reducer 
+const PointsReducer_ = (customer = {
+    name: 'Subramanian Murugan',
+    house: {
+        name: 'RavenClaw',
+        points: 20 // increment this points
+    }
+}, action) => {
+    //biz logic 
+    switch (action.type) {
+        case counterIncrementBy:
+            return produce(customer, (draft) => {
+                draft.house.points += 2
+            })
+        default:
+            return customer; // inital counter 
+    }
+}
+
+let initalState = {
+    name: 'Subramanian Murugan',
+    house: {
+        name: 'RavenClaw',
+        points: 20 // increment this points
+    }
+}
+//create Reducer
+const PointsReducer = createReducer(initalState, builder => {
+    //addCase takes two arg one is action name and produce function logic
+    builder.addCase(counterIncrementBy, (state, action) => {
+        state.house.points++
+    }).addDefaultCase((state, action) => {
+        console.log('default case')
+    })
+})
+
+//create Store Object  
+const store = configureStore({
+    reducer: {
+        //reducerName:ReducerValue
+        points: PointsReducer,
+    }
+})
+
+const Points = props => {
+
+    //grab state from the redux 
+    const customerPoints = useSelector(state => {
+        //appState.reducerName
+        return state.points;
+    })
+    //dispatcher hook 
+    const incrementBy = useDispatch();
+
+    //Action creator 
+    const incrementActionCreator = value => {
+        return {
+            type: counterIncrementBy,
+            payload: value
+        }
+    }
+    const onIncrementBy = () => {
+        //passing data to the reducer
+        incrementBy(incrementActionCreator(2))
+    }
+    return <View>
+        <Text>
+            Customer Name : {customerPoints.name}
+        </Text>
+        <Text>
+            House Name : {customerPoints.house.name}
+        </Text>
+        <Text>
+            House Points : {customerPoints.house.points}
+        </Text>
+        <Button title="IncrementBy" onPress={onIncrementBy} />
+
+    </View>
+}
+
+
+
+export default function App() {
+    return (<Provider store={store}>
+        <View style={styles.container}>
+            <Points />
+            <StatusBar style="auto" />
+        </View>
+    </Provider>);
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: 'pink',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+});
+
+
+createReducer:
+  It helper api which streamlines the implementation of old reducers.
+
+createReducer uses two coding patterns:
+
+1.builder callback pattern
+2.map object notation pattern
+
+Recommended one is builder callback pattern.
+
+
+syntax:
+const counterReducer = createReducer(initalState, builder => {
+    //addCase takes two arg one is action name and produce function logic
+    builder.addCase(increment, (state, action) => {
+        state.value++
+    }).addCase(incrementBy, (state, action) => {
+        state.value += action.payload
+    }).addCase(decrement, (state, action) => {
+        state.value--
+    }).addDefaultCase((state, action) => {
+        console.log('default case')
+    })
+})
+....................................................................................
+			How to simplify actions constants
+
+Old way:
+const counterIncrementBy = 'counter/incrementBy'
+
+new way:How to create Actions using createAction 
+
+ createAction is helper fuction to create action.
+ it helps to create action creator too.
+
+ syntax:
+  function createAction(type,prepareAction?)
+
+eg:
+import { StatusBar } from 'expo-status-bar';
+import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { configureStore, createReducer, createAction } from '@reduxjs/toolkit';
+import { Provider, useDispatch, useSelector } from 'react-redux';
+import { produce } from 'immer';
+
+//Action constants 
+//const counterIncrementBy = 'counter/incrementBy'
+const counterIncrementBy = createAction('counter/incrementBy')
+
+let initalState = {
+    name: 'Subramanian Murugan',
+    house: {
+        name: 'RavenClaw',
+        points: 20 // increment this points
+    }
+}
+//create Reducer
+const PointsReducer = createReducer(initalState, builder => {
+    //addCase takes two arg one is action name and produce function logic
+    builder.addCase(counterIncrementBy, (state, action) => {
+        state.house.points++
+    }).addDefaultCase((state, action) => {
+        console.log('default case')
+    })
+})
+
+//create Store Object  
+const store = configureStore({
+    reducer: {
+        //reducerName:ReducerValue
+        points: PointsReducer,
+    }
+})
+
+const Points = props => {
+
+    //grab state from the redux 
+    const customerPoints = useSelector(state => {
+        //appState.reducerName
+        return state.points;
+    })
+    //dispatcher hook 
+    const incrementBy = useDispatch();
+
+    //Action creator 
+    const incrementActionCreator = value => {
+        return {
+            type: counterIncrementBy,
+            payload: value
+        }
+    }
+    const onIncrementBy = () => {
+        //passing data to the reducer
+        incrementBy(incrementActionCreator(2))
+    }
+    return <View>
+        <Text>
+            Customer Name : {customerPoints.name}
+        </Text>
+        <Text>
+            House Name : {customerPoints.house.name}
+        </Text>
+        <Text>
+            House Points : {customerPoints.house.points}
+        </Text>
+        <Button title="IncrementBy" onPress={onIncrementBy} />
+
+    </View>
+}
+
+
+
+export default function App() {
+    return (<Provider store={store}>
+        <View style={styles.container}>
+            <Points />
+            <StatusBar style="auto" />
+        </View>
+    </Provider>);
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: 'pink',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+});
+....................................................................................			What if i want reducer with immerjs, and actions
+....................................................................................
+Generate actions,action creators dynamically, so that you dont need to write extra code.
+
+slice:
+createSlice
+
+createSlice is abstraction for createAction and createReducer
+   You can auto generation actions and reducers out of slice.
+
+createSlice = createAction + createReducer + immer Produce function
+
+Syntax:
+
+const initalState = {
+
+}
+
+const pointsSlice = createSlice({
+ name:'points',
+ initialState:initalState,
+ reducers: {
+     increment(state,action){
+	 state.house.points++
+     }
+ },
+  extraReducers: builder => {
+        //builder.addCase
+        builder.addDefaultCase((state, action) => { })
+  }
+})
+const pointsReducer = pointsSlice.reducer
+const {increment} = pointsSlice.actions
+
+import { StatusBar } from 'expo-status-bar';
+import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { configureStore,createSlice } from '@reduxjs/toolkit';
+import { Provider, useDispatch, useSelector } from 'react-redux';
+
+let initialState = {
+    name: 'Subramanian Murugan',
+    house: {
+        name: 'RavenClaw',
+        points: 20 // increment this points
+    }
+}
+const pointsSlice = createSlice({
+    name: 'points',  //name used in action types : 'counter/increment'
+    //initialState: initalState,
+    initialState,
+    reducers: {
+        //object notation pattern
+        increment(state) {
+            state.house.points++
+        }
+    },
+    //builder callback api : it is recommended for typescript
+    extraReducers: builder => {
+        //builder.addCase
+        builder.addDefaultCase((state, action) => { })
+    }
+
+})
+const { increment } = pointsSlice.actions
+const PointsReducer = pointsSlice.reducer
+
+//create Store Object  
+const store = configureStore({
+    reducer: {
+        //reducerName:ReducerValue
+        points: PointsReducer,
+    }
+})
+
+const Points = props => {
+
+    //grab state from the redux 
+    const customerPoints = useSelector(state => {
+        //appState.reducerName
+        return state.points;
+    })
+    //dispatcher hook 
+    const incrementBy = useDispatch();
+
+    //Action creator 
+    const incrementActionCreator = value => {
+        return {
+            type: increment,
+            payload: value
+        }
+    }
+    const onIncrementBy = () => {
+        //passing data to the reducer
+        incrementBy(incrementActionCreator(2))
+    }
+    return <View>
+        <Text>
+            Customer Name : {customerPoints.name}
+        </Text>
+        <Text>
+            House Name : {customerPoints.house.name}
+        </Text>
+        <Text>
+            House Points : {customerPoints.house.points}
+        </Text>
+        <Button title="IncrementBy" onPress={onIncrementBy} />
+
+    </View>
+}
+
+
+
+export default function App() {
+    return (<Provider store={store}>
+        <View style={styles.container}>
+            <Points />
+            <StatusBar style="auto" />
+        </View>
+    </Provider>);
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: 'pink',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+});
+.....................................................................................
+		      WebService calls and Redux
+.....................................................................................
+
+All web service calls must go via redux middleware only.
+Redux offers a special middleware called "thunk" - through which we can make api calls.
+Redux tool kit offers thunk as default middleware, so we dont need to install thunk middleware and configure
+
+Sync flow
+dispatch(Action)------------------store--fire Reducer---returns new state
 
 				
+
+Async Flow
+					-------------------------api call
+					|
+					|
+				   pause the calling store
+					| response(state)---->payload
+dispatch(fetchTodosAsync()) -----Middlware(thunk)----->   store--fire Reducer---returns new state
+
+import { StyleSheet, Text, View, Button, Alert, StatusBar, ActivityIndicator, FlatList, TouchableHighlight } from 'react-native'
+import { useEffect, useState } from 'react';
+import { configureStore, createAsyncThunk, createSlice, } from '@reduxjs/toolkit'
+import { Provider, useDispatch, useSelector } from 'react-redux'
+
+//function must return promise
+function fetchTodos() {
+    const url = 'https://jsonplaceholder.typicode.com/todos'
+    return fetch(url)
+}
+
+
+// api logic should be written inside middleware
+//createAsyncThunk is wrapper for middleware
+
+const fetchTodosAsync = createAsyncThunk('todos/fetch', async () => {
+    const todos = await (await fetchTodos()).json()
+    return todos
+})
+//createAsyncThunk returns promise with state 
+// "pending: initial state, neither fulfilled nor rejected.
+// fulfilled: meaning that the operation was completed successfully.
+// rejected: meaning that the operation failed."
+
+const TodoSlice = createSlice({
+    name: 'todos',
+    initialState: {
+        entities: [],
+        loading: 'idle'
+    },
+    reducers: {},
+    extraReducers: builder => {
+        //write logic to fetch data
+        builder.addCase(fetchTodosAsync.fulfilled, (state, action) => {
+            state.loading = 'fulfilled'
+            state.entities.push(action.payload)
+        })
+    }
+})
+const TodoReducer = TodoSlice.reducer
+
+const store = configureStore({
+    reducer: {
+        //list of Reducers
+        todo: TodoReducer
+    },
+})
+
+const Todos = props => {
+    const todos = useSelector(state => {
+        return state.todo
+    })
+    // console.log(todos.entities[0])
+    //Get Dispatcher 
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(fetchTodosAsync())
+    }, [])
+
+    const { loading, entities } = todos
+    console.log(entities)
+
+    return <>
+        <Text> {JSON.stringify(entities)}</Text>
+    </>
+}
+
+
+export default function App() {
+    return <Provider store={store}>
+        <Todos />
+    </Provider>
+}
+
+//page style :Common style 
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: 'white',
+        marginTop: StatusBar.currentHeight || 0
+    },
+    item: {
+        backgroundColor: '#f9c2ff',
+        padding: 20,
+        marginVertical: 8,
+        marginHorizontal: 8
+    },
+    title: {
+        fontSize: 32
+    }
+})
+
+Links:
+https://docs.expo.dev/build/setup/
+https://reactnative.dev/docs/native-modules-android
+https://reactnative.dev/docs/signed-apk-android
+
+
 
 
 
